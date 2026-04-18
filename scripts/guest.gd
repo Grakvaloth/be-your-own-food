@@ -45,18 +45,24 @@ func _physics_process(delta: float) -> void:
 				_walk_target = Vector2(-80, 700)
 
 func _step_toward(pos: Vector2) -> void:
-	if global_position.distance_to(pos) < 12.0:
-		velocity = Vector2.ZERO
-		move_and_slide()
-		_on_reached()
-		return
 	if state in [State.ENTERING, State.LEAVING]:
+		if global_position.distance_to(pos) < 12.0:
+			velocity = Vector2.ZERO
+			move_and_slide()
+			_on_reached()
+			return
 		velocity = (pos - global_position).normalized() * SPEED
+		move_and_slide()
 	else:
 		_nav.target_position = pos
+		if _nav.is_navigation_finished():
+			velocity = Vector2.ZERO
+			move_and_slide()
+			_on_reached()
+			return
 		var next := _nav.get_next_path_position()
 		velocity = (next - global_position).normalized() * SPEED
-	move_and_slide()
+		move_and_slide()
 
 func _on_reached() -> void:
 	match state:
@@ -87,9 +93,7 @@ func _update_timer_bar() -> void:
 func _leave_early() -> void:
 	$OrderBubble.visible = false
 	$TimerBar.visible = false
-	if assigned_seat != null:
-		get_parent().guest_left_early(self)
-		assigned_seat = null
+	get_parent().guest_left_early(self)
 	state = State.LEAVING
 	_walk_target = Vector2(-80, 700)
 

@@ -21,10 +21,9 @@ texture = ExtResource("1_guest1")
 shape = SubResource("CircleShape2D_guest1")
 
 [node name="NavAgent" type="NavigationAgent2D" parent="."]
-avoidance_enabled = true
-radius = 30.0
+avoidance_enabled = false
 path_desired_distance = 4.0
-target_desired_distance = 12.0
+target_desired_distance = 24.0
 
 [node name="OrderBubble" type="Node2D" parent="."]
 position = Vector2(0, -64)

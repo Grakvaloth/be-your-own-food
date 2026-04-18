@@ -74,11 +74,11 @@ func _update_ui() -> void:
 
 func _interact() -> void:
 	for body in $InteractArea.get_overlapping_bodies():
-		if body != self and body.has_method("on_player_interact"):
+		if body != self and body.has_method("can_interact") and body.can_interact(self) and body.has_method("on_player_interact"):
 			body.on_player_interact(self)
 			return
 	for area in $InteractArea.get_overlapping_areas():
-		if area.has_method("on_player_interact"):
+		if area.has_method("can_interact") and area.can_interact(self) and area.has_method("on_player_interact"):
 			area.on_player_interact(self)
 			return
 

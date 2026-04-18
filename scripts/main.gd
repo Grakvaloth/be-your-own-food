@@ -41,9 +41,9 @@ func guest_served(guest: CharacterBody2D) -> void:
 	guest.queue_free()
 
 func guest_left_early(guest: CharacterBody2D) -> void:
-	if guest.assigned_seat != null:
-		_free_seats.append(guest.assigned_seat)
 	_guests.erase(guest)
 
 func guest_done(guest: CharacterBody2D) -> void:
+	if guest.assigned_seat != null:
+		_free_seats.append(guest.assigned_seat)
 	guest.queue_free()
