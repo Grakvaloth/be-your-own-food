@@ -6,7 +6,7 @@ const SPEED := 120.0
 
 var state := State.ENTERING
 var current_order := "food_cooked"
-var assigned_table: Node = null
+var assigned_seat: Node = null
 
 @onready var _nav: NavigationAgent2D = $NavAgent
 
@@ -49,12 +49,12 @@ func _on_reached() -> void:
 func on_player_interact(player: CharacterBody2D) -> void:
 	match state:
 		State.WAITING:
-			if assigned_table != null:
-				_walk_target = assigned_table.get_node("SeatPoint").global_position
+			if assigned_seat != null:
+				_walk_target = assigned_seat.global_position
 				state = State.WALKING_TO_TABLE
 				$OrderBubble.visible = false
 		State.EATING:
-			if player.carried_item == current_order:
-				player.drop()
+			if player.has_item(current_order):
+				player.take_item(current_order)
 				state = State.LEAVING
 				_walk_target = Vector2(-80, 700)

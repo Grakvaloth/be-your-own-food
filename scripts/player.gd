@@ -1,7 +1,25 @@
 extends CharacterBody2D
 
 const SPEED := 200.0
-var carried_item := ""
+const INVENTORY_SIZE := 4
+
+var inventory: Array[String] = ["", "", "", ""]
+
+@onready var _slots: Array[TextureRect] = [
+	$InventoryLayer/Slot0/Icon,
+	$InventoryLayer/Slot1/Icon,
+	$InventoryLayer/Slot2/Icon,
+	$InventoryLayer/Slot3/Icon,
+]
+
+var _textures: Dictionary = {}
+
+func _ready() -> void:
+	_textures = {
+		"food_raw": load("res://assets/food_raw.svg"),
+		"food_cooked": load("res://assets/food_cooked.svg"),
+	}
+	_update_ui()
 
 func _physics_process(_delta: float) -> void:
 	velocity = Input.get_vector("move_left", "move_right", "move_up", "move_down") * SPEED
@@ -10,14 +28,28 @@ func _physics_process(_delta: float) -> void:
 		_interact()
 	_update_hint()
 
-func pick_up(item_name: String) -> void:
-	if carried_item == "":
-		carried_item = item_name
+func pick_up(item_name: String) -> bool:
+	for i in INVENTORY_SIZE:
+		if inventory[i] == "":
+			inventory[i] = item_name
+			_update_ui()
+			return true
+	return false
 
-func drop() -> String:
-	var item := carried_item
-	carried_item = ""
-	return item
+func has_item(item_name: String) -> bool:
+	return inventory.has(item_name)
+
+func take_item(item_name: String) -> String:
+	for i in INVENTORY_SIZE:
+		if inventory[i] == item_name:
+			inventory[i] = ""
+			_update_ui()
+			return item_name
+	return ""
+
+func _update_ui() -> void:
+	for i in INVENTORY_SIZE:
+		_slots[i].texture = _textures.get(inventory[i], null)
 
 func _interact() -> void:
 	for body in $InteractArea.get_overlapping_bodies():

@@ -30,3 +30,57 @@ shape = SubResource("CircleShape2D_play2")
 position = Vector2(-10, -60)
 text = "[E]"
 visible = false
+
+[node name="InventoryLayer" type="CanvasLayer" parent="."]
+
+[node name="Slot0" type="Panel" parent="InventoryLayer"]
+offset_left = 785.0
+offset_top = 980.0
+offset_right = 865.0
+offset_bottom = 1060.0
+
+[node name="Icon" type="TextureRect" parent="InventoryLayer/Slot0"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 72.0
+offset_bottom = 72.0
+stretch_mode = 5
+
+[node name="Slot1" type="Panel" parent="InventoryLayer"]
+offset_left = 875.0
+offset_top = 980.0
+offset_right = 955.0
+offset_bottom = 1060.0
+
+[node name="Icon" type="TextureRect" parent="InventoryLayer/Slot1"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 72.0
+offset_bottom = 72.0
+stretch_mode = 5
+
+[node name="Slot2" type="Panel" parent="InventoryLayer"]
+offset_left = 965.0
+offset_top = 980.0
+offset_right = 1045.0
+offset_bottom = 1060.0
+
+[node name="Icon" type="TextureRect" parent="InventoryLayer/Slot2"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 72.0
+offset_bottom = 72.0
+stretch_mode = 5
+
+[node name="Slot3" type="Panel" parent="InventoryLayer"]
+offset_left = 1055.0
+offset_top = 980.0
+offset_right = 1135.0
+offset_bottom = 1060.0
+
+[node name="Icon" type="TextureRect" parent="InventoryLayer/Slot3"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 72.0
+offset_bottom = 72.0
+stretch_mode = 5
