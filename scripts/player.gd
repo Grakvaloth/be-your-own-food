@@ -40,6 +40,15 @@ func pick_up(item_name: String) -> bool:
 func has_item(item_name: String) -> bool:
 	return inventory.has(item_name)
 
+func has_any_item() -> bool:
+	for item in inventory:
+		if item != "":
+			return true
+	return false
+
+func inventory_full() -> bool:
+	return not ("" in inventory)
+
 func take_item(item_name: String) -> String:
 	for i in INVENTORY_SIZE:
 		if inventory[i] == item_name:
@@ -76,7 +85,7 @@ func _interact() -> void:
 func _update_hint() -> void:
 	var found := false
 	for body in $InteractArea.get_overlapping_bodies():
-		if body != self and body.has_method("on_player_interact"):
+		if body != self and body.has_method("can_interact") and body.can_interact(self):
 			found = true
 			break
 	$InteractHint.visible = found

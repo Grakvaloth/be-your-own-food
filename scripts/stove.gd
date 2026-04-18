@@ -1,6 +1,7 @@
 extends StaticBody2D
 
 @onready var _food_sprite: Sprite2D = $FoodSprite
+@onready var _cook_bar: Node2D = $CookBar
 @onready var _raw_tex: Texture2D = preload("res://assets/food_raw.svg")
 @onready var _cooked_tex: Texture2D = preload("res://assets/food_cooked.svg")
 
@@ -23,6 +24,24 @@ func _process(delta: float) -> void:
 			_food_sprite.modulate = Color.WHITE
 	elif _cook_time >= 5.0:
 		_food_sprite.modulate = Color.YELLOW
+	_update_bar()
+
+func _update_bar() -> void:
+	if _item == "food_burnt":
+		_cook_bar.update_bar(10.0, Color(0.2, 0.2, 0.2))
+	elif _item == "food_cooked":
+		_cook_bar.update_bar(10.0, Color.GREEN)
+	elif _cook_time >= 5.0:
+		_cook_bar.update_bar(_cook_time, Color.YELLOW)
+	else:
+		_cook_bar.update_bar(_cook_time, Color(1.0, 0.6, 0.1))
+
+func can_interact(player: CharacterBody2D) -> bool:
+	if _item == "" and player.has_item("food_raw"):
+		return true
+	if _item in ["food_cooked", "food_burnt"] and not player.inventory_full():
+		return true
+	return false
 
 func on_player_interact(player: CharacterBody2D) -> void:
 	if _item == "" and player.has_item("food_raw"):
@@ -32,8 +51,11 @@ func on_player_interact(player: CharacterBody2D) -> void:
 		_food_sprite.texture = _raw_tex
 		_food_sprite.modulate = Color.WHITE
 		_food_sprite.visible = true
+		_cook_bar.visible = true
+		_update_bar()
 	elif _item in ["food_cooked", "food_burnt"]:
 		if player.pick_up(_item):
 			_item = ""
 			_cook_time = 0.0
 			_food_sprite.visible = false
+			_cook_bar.visible = false

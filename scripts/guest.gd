@@ -41,9 +41,12 @@ func _step_toward(pos: Vector2) -> void:
 		move_and_slide()
 		_on_reached()
 		return
-	_nav.target_position = pos
-	var next := _nav.get_next_path_position()
-	velocity = (next - global_position).normalized() * SPEED
+	if state in [State.ENTERING, State.LEAVING]:
+		velocity = (pos - global_position).normalized() * SPEED
+	else:
+		_nav.target_position = pos
+		var next := _nav.get_next_path_position()
+		velocity = (next - global_position).normalized() * SPEED
 	move_and_slide()
 
 func _on_reached() -> void:
@@ -57,6 +60,14 @@ func _on_reached() -> void:
 			get_parent().guest_served(self)
 			return
 
+func can_interact(player: CharacterBody2D) -> bool:
+	match state:
+		State.WAITING:
+			return assigned_seat != null
+		State.EATING:
+			return player.has_item(current_order)
+	return false
+
 func on_player_interact(player: CharacterBody2D) -> void:
 	match state:
 		State.WAITING:
@@ -67,6 +78,13 @@ func on_player_interact(player: CharacterBody2D) -> void:
 		State.EATING:
 			if player.has_item(current_order):
 				player.take_item(current_order)
+				_place_food_toward_table()
 				$FoodSprite.visible = true
 				_eat_timer = EAT_DURATION
 				state = State.DINING
+
+func _place_food_toward_table() -> void:
+	if assigned_seat != null and assigned_seat.position.y < 0:
+		$FoodSprite.position = Vector2(0, 32)
+	else:
+		$FoodSprite.position = Vector2(0, -32)

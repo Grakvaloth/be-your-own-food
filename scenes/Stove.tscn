@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Texture2D" path="res://assets/stove.svg" id="1_stove1"]
 [ext_resource type="Script" path="res://scripts/stove.gd" id="2_stove1"]
 [ext_resource type="Texture2D" path="res://assets/food_raw.svg" id="3_stove1"]
 [ext_resource type="Texture2D" path="res://assets/food_cooked.svg" id="4_stove1"]
+[ext_resource type="Script" path="res://scripts/cook_bar.gd" id="5_stove1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_stove1"]
 size = Vector2(64, 64)
@@ -22,3 +23,7 @@ shape = SubResource("RectangleShape2D_stove1")
 [node name="FoodSprite" type="Sprite2D" parent="."]
 visible = false
 scale = Vector2(0.8, 0.8)
+
+[node name="CookBar" type="Node2D" parent="."]
+script = ExtResource("5_stove1")
+visible = false
