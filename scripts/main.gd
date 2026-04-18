@@ -23,7 +23,7 @@ func _process(delta: float) -> void:
 func _spawn_guest() -> void:
 	var g: CharacterBody2D = preload("res://scenes/Guest.tscn").instantiate()
 	g.assigned_table = _free_tables.pop_front()
-	g.global_position = Vector2(-50, 360)
+	g.global_position = Vector2(-50, 700)
 	add_child(g)
 	_guests.append(g)
 

@@ -13,7 +13,7 @@ var assigned_table: Node = null
 var _walk_target := Vector2.ZERO
 
 func _ready() -> void:
-	_walk_target = Vector2(150, 360)
+	_walk_target = Vector2(360, 390)
 	$OrderBubble.visible = false
 
 func _physics_process(_delta: float) -> void:
@@ -44,6 +44,7 @@ func _on_reached() -> void:
 			state = State.EATING
 		State.LEAVING:
 			get_parent().guest_served(self)
+			return
 
 func on_player_interact(player: CharacterBody2D) -> void:
 	match state:
@@ -56,4 +57,4 @@ func on_player_interact(player: CharacterBody2D) -> void:
 			if player.carried_item == current_order:
 				player.drop()
 				state = State.LEAVING
-				_walk_target = Vector2(-80, 360)
+				_walk_target = Vector2(-80, 700)
