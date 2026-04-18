@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/table.svg" id="1_table1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_table1"]
+size = Vector2(128, 64)
+
+[node name="Table" type="StaticBody2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_table1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_table1")
+
+[node name="SeatPoint" type="Marker2D" parent="."]
+position = Vector2(0, 48)

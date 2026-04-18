@@ -1,0 +1,84 @@
+[gd_scene load_steps=14 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/Table.tscn" id="1_main1"]
+[ext_resource type="PackedScene" path="res://scenes/Stove.tscn" id="2_main1"]
+[ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="3_main1"]
+[ext_resource type="Script" path="res://scripts/main.gd" id="4_main1"]
+[ext_resource type="Texture2D" path="res://assets/fridge.svg" id="5_main1"]
+[ext_resource type="Script" path="res://scripts/fridge.gd" id="6_main1"]
+[ext_resource type="Texture2D" path="res://assets/counter_1.svg" id="7_main1"]
+[ext_resource type="Texture2D" path="res://assets/counter_2.svg" id="8_main1"]
+[ext_resource type="Texture2D" path="res://assets/counter_3.svg" id="9_main1"]
+[ext_resource type="Texture2D" path="res://assets/counter_4.svg" id="10_main1"]
+[ext_resource type="Texture2D" path="res://assets/counter_5.svg" id="11_main1"]
+[ext_resource type="Texture2D" path="res://assets/counter_6.svg" id="12_main1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_main1"]
+size = Vector2(64, 128)
+
+[node name="Main" type="Node2D"]
+script = ExtResource("4_main1")
+
+[node name="Fridge" type="StaticBody2D" parent="."]
+position = Vector2(100, 100)
+script = ExtResource("6_main1")
+
+[node name="Sprite2D" type="Sprite2D" parent="Fridge"]
+texture = ExtResource("5_main1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Fridge"]
+shape = SubResource("RectangleShape2D_main1")
+
+[node name="Stove1" parent="." instance=ExtResource("2_main1")]
+position = Vector2(250, 100)
+
+[node name="Stove2" parent="." instance=ExtResource("2_main1")]
+position = Vector2(350, 100)
+
+[node name="Stove3" parent="." instance=ExtResource("2_main1")]
+position = Vector2(450, 100)
+
+[node name="Stove4" parent="." instance=ExtResource("2_main1")]
+position = Vector2(550, 100)
+
+[node name="Table1" parent="." instance=ExtResource("1_main1")]
+position = Vector2(400, 450)
+
+[node name="Table2" parent="." instance=ExtResource("1_main1")]
+position = Vector2(700, 450)
+
+[node name="Counter1" type="Sprite2D" parent="."]
+position = Vector2(100, 250)
+texture = ExtResource("7_main1")
+
+[node name="Counter2" type="Sprite2D" parent="."]
+position = Vector2(164, 250)
+texture = ExtResource("8_main1")
+
+[node name="Counter3" type="Sprite2D" parent="."]
+position = Vector2(228, 250)
+texture = ExtResource("9_main1")
+
+[node name="Counter4" type="Sprite2D" parent="."]
+position = Vector2(292, 250)
+texture = ExtResource("10_main1")
+
+[node name="Counter5" type="Sprite2D" parent="."]
+position = Vector2(356, 250)
+texture = ExtResource("11_main1")
+
+[node name="Counter6" type="Sprite2D" parent="."]
+position = Vector2(420, 250)
+texture = ExtResource("12_main1")
+
+[node name="Player" parent="." instance=ExtResource("3_main1")]
+position = Vector2(640, 400)
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="ScoreLabel" type="Label" parent="HUD"]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 220.0
+offset_bottom = 50.0
+text = "Score: 0"
