@@ -13,7 +13,7 @@
 size = Vector2(64, 128)
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_main1"]
-vertices = PackedVector2Array(-200, 220, 1920, 220, 1920, 1060, -200, 1060)
+vertices = PackedVector2Array(-200, 340, 1920, 340, 1920, 1080, -200, 1080)
 polygons = [PackedInt32Array(0, 1, 2, 3)]
 
 [node name="Main" type="Node2D"]
@@ -23,7 +23,7 @@ script = ExtResource("4_main1")
 navigation_polygon = SubResource("NavigationPolygon_main1")
 
 [node name="Fridge" type="StaticBody2D" parent="."]
-position = Vector2(150, 120)
+position = Vector2(80, 120)
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("6_main1")
@@ -35,43 +35,61 @@ texture = ExtResource("5_main1")
 shape = SubResource("RectangleShape2D_main1")
 
 [node name="Trash" parent="." instance=ExtResource("8_main1")]
-position = Vector2(820, 120)
+position = Vector2(900, 120)
 
 [node name="Stove1" parent="." instance=ExtResource("2_main1")]
-position = Vector2(350, 120)
+position = Vector2(260, 120)
 
 [node name="Stove2" parent="." instance=ExtResource("2_main1")]
-position = Vector2(470, 120)
+position = Vector2(390, 120)
 
 [node name="Stove3" parent="." instance=ExtResource("2_main1")]
-position = Vector2(590, 120)
+position = Vector2(520, 120)
 
 [node name="Stove4" parent="." instance=ExtResource("2_main1")]
-position = Vector2(710, 120)
+position = Vector2(650, 120)
+
+[node name="Stove5" parent="." instance=ExtResource("2_main1")]
+position = Vector2(780, 120)
 
 [node name="Table1" parent="." instance=ExtResource("1_main1")]
-position = Vector2(500, 620)
+position = Vector2(480, 700)
 
 [node name="Table2" parent="." instance=ExtResource("1_main1")]
-position = Vector2(1100, 620)
+position = Vector2(960, 700)
+
+[node name="Table3" parent="." instance=ExtResource("1_main1")]
+position = Vector2(1440, 700)
 
 [node name="Counter1" parent="." instance=ExtResource("7_main1")]
-position = Vector2(200, 290)
+position = Vector2(160, 280)
 
 [node name="Counter2" parent="." instance=ExtResource("7_main1")]
-position = Vector2(264, 290)
+position = Vector2(224, 280)
 
 [node name="Counter3" parent="." instance=ExtResource("7_main1")]
-position = Vector2(328, 290)
+position = Vector2(288, 280)
 
 [node name="Counter4" parent="." instance=ExtResource("7_main1")]
-position = Vector2(392, 290)
+position = Vector2(352, 280)
 
 [node name="Counter5" parent="." instance=ExtResource("7_main1")]
-position = Vector2(456, 290)
+position = Vector2(416, 280)
 
 [node name="Counter6" parent="." instance=ExtResource("7_main1")]
-position = Vector2(520, 290)
+position = Vector2(480, 280)
+
+[node name="Counter7" parent="." instance=ExtResource("7_main1")]
+position = Vector2(544, 280)
+
+[node name="Counter8" parent="." instance=ExtResource("7_main1")]
+position = Vector2(608, 280)
+
+[node name="Counter9" parent="." instance=ExtResource("7_main1")]
+position = Vector2(672, 280)
+
+[node name="Counter10" parent="." instance=ExtResource("7_main1")]
+position = Vector2(736, 280)
 
 [node name="Player" parent="." instance=ExtResource("3_main1")]
 position = Vector2(960, 500)
@@ -81,6 +99,6 @@ position = Vector2(960, 500)
 [node name="ScoreLabel" type="Label" parent="HUD"]
 offset_left = 20.0
 offset_top = 20.0
-offset_right = 280.0
+offset_right = 300.0
 offset_bottom = 60.0
-text = "Score: 0"
+text = "Münzen: 0"

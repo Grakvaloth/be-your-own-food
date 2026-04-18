@@ -17,15 +17,15 @@ texture = ExtResource("1_table1")
 shape = SubResource("RectangleShape2D_table1")
 
 [node name="ChairTop" type="Sprite2D" parent="."]
-position = Vector2(0, -52)
+position = Vector2(0, -76)
 texture = ExtResource("2_table1")
 
 [node name="ChairBottom" type="Sprite2D" parent="."]
-position = Vector2(0, 52)
+position = Vector2(0, 76)
 texture = ExtResource("2_table1")
 
 [node name="SeatPoint_Top" type="Marker2D" parent="."]
-position = Vector2(0, -52)
+position = Vector2(0, -76)
 
 [node name="SeatPoint_Bottom" type="Marker2D" parent="."]
-position = Vector2(0, 52)
+position = Vector2(0, 76)

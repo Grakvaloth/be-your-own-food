@@ -1,7 +1,7 @@
 extends Node2D
 
 const SPAWN_INTERVAL := 30.0
-const MAX_GUESTS := 4
+const MAX_GUESTS := 6
 const POINTS_PER_GUEST := 100
 
 var score := 0
@@ -15,6 +15,8 @@ func _ready() -> void:
 		$Table1/SeatPoint_Bottom,
 		$Table2/SeatPoint_Top,
 		$Table2/SeatPoint_Bottom,
+		$Table3/SeatPoint_Top,
+		$Table3/SeatPoint_Bottom,
 	]
 	$HUD/ScoreLabel.text = "Münzen: 0"
 
@@ -28,7 +30,7 @@ func _process(delta: float) -> void:
 func _spawn_guest() -> void:
 	var g: CharacterBody2D = preload("res://scenes/Guest.tscn").instantiate()
 	g.assigned_seat = _free_seats.pop_front()
-	g.global_position = Vector2(-50, 700)
+	g.global_position = Vector2(-80, 900)
 	add_child(g)
 	_guests.append(g)
 

@@ -6,20 +6,19 @@ const SPEED := 120.0
 const EAT_DURATION := 10.0
 const ORDER_WAIT := 30.0
 const FOOD_WAIT := 60.0
+const AISLE_X := 300.0
 
 var state := State.ENTERING
 var current_order := "food_cooked"
 var assigned_seat: Node = null
-
-@onready var _nav: NavigationAgent2D = $NavAgent
-
 var _walk_target := Vector2.ZERO
 var _eat_timer := 0.0
 var _wait_timer := 0.0
 var _served := false
+var _at_aisle := false
 
 func _ready() -> void:
-	_walk_target = Vector2(360, 390)
+	_walk_target = Vector2(450, 400)
 	$OrderBubble.visible = false
 	$FoodSprite.visible = false
 	$TimerBar.visible = false
@@ -42,27 +41,16 @@ func _physics_process(delta: float) -> void:
 			if _eat_timer <= 0.0:
 				$FoodSprite.visible = false
 				state = State.LEAVING
-				_walk_target = Vector2(-80, 700)
+				_walk_target = Vector2(-80, 900)
 
 func _step_toward(pos: Vector2) -> void:
-	if state in [State.ENTERING, State.LEAVING]:
-		if global_position.distance_to(pos) < 12.0:
-			velocity = Vector2.ZERO
-			move_and_slide()
-			_on_reached()
-			return
-		velocity = (pos - global_position).normalized() * SPEED
+	if global_position.distance_to(pos) < 16.0:
+		velocity = Vector2.ZERO
 		move_and_slide()
-	else:
-		_nav.target_position = pos
-		if _nav.is_navigation_finished():
-			velocity = Vector2.ZERO
-			move_and_slide()
-			_on_reached()
-			return
-		var next := _nav.get_next_path_position()
-		velocity = (next - global_position).normalized() * SPEED
-		move_and_slide()
+		_on_reached()
+		return
+	velocity = (pos - global_position).normalized() * SPEED
+	move_and_slide()
 
 func _on_reached() -> void:
 	match state:
@@ -73,11 +61,15 @@ func _on_reached() -> void:
 			$TimerBar.max_value = ORDER_WAIT
 			$TimerBar.visible = true
 		State.WALKING_TO_TABLE:
-			state = State.EATING
-			_wait_timer = FOOD_WAIT
-			$TimerBar.max_value = FOOD_WAIT
-			$TimerBar.visible = true
-			_update_timer_bar()
+			if not _at_aisle:
+				_at_aisle = true
+				_walk_target = assigned_seat.global_position
+			else:
+				state = State.EATING
+				_wait_timer = FOOD_WAIT
+				$TimerBar.max_value = FOOD_WAIT
+				$TimerBar.visible = true
+				_update_timer_bar()
 		State.LEAVING:
 			if _served:
 				get_parent().guest_served(self)
@@ -95,7 +87,7 @@ func _leave_early() -> void:
 	$TimerBar.visible = false
 	get_parent().guest_left_early(self)
 	state = State.LEAVING
-	_walk_target = Vector2(-80, 700)
+	_walk_target = Vector2(-80, 900)
 
 func can_interact(player: CharacterBody2D) -> bool:
 	match state:
@@ -109,7 +101,8 @@ func on_player_interact(player: CharacterBody2D) -> void:
 	match state:
 		State.WAITING:
 			if assigned_seat != null:
-				_walk_target = assigned_seat.global_position
+				_at_aisle = false
+				_walk_target = Vector2(AISLE_X, assigned_seat.global_position.y)
 				state = State.WALKING_TO_TABLE
 				$OrderBubble.visible = false
 				$TimerBar.visible = false
