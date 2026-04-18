@@ -2,7 +2,7 @@ extends Node2D
 
 const SPAWN_INTERVAL := 30.0
 const MAX_GUESTS := 4
-const POINTS_PER_GUEST := 10
+const POINTS_PER_GUEST := 100
 
 var score := 0
 var _guests: Array = []
@@ -16,7 +16,7 @@ func _ready() -> void:
 		$Table2/SeatPoint_Top,
 		$Table2/SeatPoint_Bottom,
 	]
-	$HUD/ScoreLabel.text = "Score: 0"
+	$HUD/ScoreLabel.text = "Münzen: 0"
 
 func _process(delta: float) -> void:
 	if _guests.size() < MAX_GUESTS and _free_seats.size() > 0:
@@ -34,8 +34,16 @@ func _spawn_guest() -> void:
 
 func guest_served(guest: CharacterBody2D) -> void:
 	score += POINTS_PER_GUEST
-	$HUD/ScoreLabel.text = "Score: " + str(score)
+	$HUD/ScoreLabel.text = "Münzen: " + str(score)
 	if guest.assigned_seat != null:
 		_free_seats.append(guest.assigned_seat)
 	_guests.erase(guest)
+	guest.queue_free()
+
+func guest_left_early(guest: CharacterBody2D) -> void:
+	if guest.assigned_seat != null:
+		_free_seats.append(guest.assigned_seat)
+	_guests.erase(guest)
+
+func guest_done(guest: CharacterBody2D) -> void:
 	guest.queue_free()

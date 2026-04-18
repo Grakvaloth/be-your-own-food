@@ -15,7 +15,9 @@ func _draw() -> void:
 	if fill > 0.0:
 		draw_rect(Rect2(OX, OY, fill, H), bar_color)
 
-func update_bar(v: float, color: Color) -> void:
+func update_bar(v: float, color: Color, max_v: float = -1.0) -> void:
 	value = v
 	bar_color = color
+	if max_v > 0.0:
+		max_value = max_v
 	queue_redraw()
