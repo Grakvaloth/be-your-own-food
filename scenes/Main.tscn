@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3]
+[gd_scene load_steps=19 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/Table.tscn" id="1_main1"]
 [ext_resource type="PackedScene" path="res://scenes/Stove.tscn" id="2_main1"]
@@ -16,14 +16,82 @@
 size = Vector2(64, 128)
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_main1"]
-vertices = PackedVector2Array(-400, 800, 3840, 800, 3840, 2200, -400, 2200)
+vertices = PackedVector2Array(-200, 700, 1890, 700, 1890, 1790, -200, 1790)
 polygons = [PackedInt32Array(0, 1, 2, 3)]
+
+[sub_resource type="RectangleShape2D" id="RectShape_WallTop"]
+size = Vector2(1850, 24)
+
+[sub_resource type="RectangleShape2D" id="RectShape_WallBottom"]
+size = Vector2(1850, 24)
+
+[sub_resource type="RectangleShape2D" id="RectShape_WallLeftTop"]
+size = Vector2(24, 780)
+
+[sub_resource type="RectangleShape2D" id="RectShape_WallLeftBottom"]
+size = Vector2(24, 870)
+
+[sub_resource type="RectangleShape2D" id="RectShape_WallRight"]
+size = Vector2(24, 1750)
 
 [node name="Main" type="Node2D"]
 script = ExtResource("4_main1")
 
+[node name="Floor" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(50, 50, 1900, 50, 1900, 1800, 50, 1800)
+color = Color(0.82, 0.76, 0.65, 1)
+
+[node name="Door" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(10, 825, 60, 825, 60, 935, 10, 935)
+color = Color(0.55, 0.42, 0.18, 1)
+
+[node name="WallLine" type="Line2D" parent="."]
+points = PackedVector2Array(50, 830, 50, 50, 1900, 50, 1900, 1800, 50, 1800, 50, 930)
+width = 24.0
+default_color = Color(0.3, 0.22, 0.12, 1)
+
 [node name="NavRegion" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_main1")
+
+[node name="WallTop" type="StaticBody2D" parent="."]
+position = Vector2(975, 50)
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallTop"]
+shape = SubResource("RectShape_WallTop")
+
+[node name="WallBottom" type="StaticBody2D" parent="."]
+position = Vector2(975, 1800)
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallBottom"]
+shape = SubResource("RectShape_WallBottom")
+
+[node name="WallLeftTop" type="StaticBody2D" parent="."]
+position = Vector2(50, 440)
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallLeftTop"]
+shape = SubResource("RectShape_WallLeftTop")
+
+[node name="WallLeftBottom" type="StaticBody2D" parent="."]
+position = Vector2(50, 1365)
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallLeftBottom"]
+shape = SubResource("RectShape_WallLeftBottom")
+
+[node name="WallRight" type="StaticBody2D" parent="."]
+position = Vector2(1900, 925)
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallRight"]
+shape = SubResource("RectShape_WallRight")
 
 [node name="Fridge" type="StaticBody2D" parent="."]
 position = Vector2(160, 288)
@@ -59,11 +127,11 @@ position = Vector2(740, 160)
 scale = Vector2(1.8, 1.8)
 
 [node name="Trash" parent="." instance=ExtResource("8_main1")]
-position = Vector2(2000, 160)
+position = Vector2(1400, 160)
 scale = Vector2(1.8, 1.8)
 
 [node name="UpgradeComputer" parent="." instance=ExtResource("11_main1")]
-position = Vector2(3600, 160)
+position = Vector2(1550, 160)
 scale = Vector2(1.8, 1.8)
 
 [node name="WarmingPlate1" parent="." instance=ExtResource("10_main1")]
@@ -91,19 +159,19 @@ position = Vector2(900, 640)
 scale = Vector2(1.8, 1.8)
 
 [node name="Table1" parent="." instance=ExtResource("1_main1")]
-position = Vector2(960, 1560)
+position = Vector2(400, 1500)
 scale = Vector2(1.8, 1.8)
 
 [node name="Table2" parent="." instance=ExtResource("1_main1")]
-position = Vector2(1920, 1560)
+position = Vector2(750, 1500)
 scale = Vector2(1.8, 1.8)
 
 [node name="Table3" parent="." instance=ExtResource("1_main1")]
-position = Vector2(2880, 1560)
+position = Vector2(1100, 1500)
 scale = Vector2(1.8, 1.8)
 
 [node name="Player" parent="." instance=ExtResource("3_main1")]
-position = Vector2(1400, 1100)
+position = Vector2(900, 1000)
 
 [node name="HUD" type="CanvasLayer" parent="."]
 

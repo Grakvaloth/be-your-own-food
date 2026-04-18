@@ -40,6 +40,8 @@ func _update_bar() -> void:
 func can_interact(player: CharacterBody2D) -> bool:
 	if _item == "" and player.has_item("food_raw"):
 		return true
+	if _item == "food_cooked" and player.has_item("bun"):
+		return true
 	if _item in ["food_cooked", "food_burnt"] and not player.inventory_full():
 		return true
 	return false
@@ -54,6 +56,13 @@ func on_player_interact(player: CharacterBody2D) -> void:
 		_food_sprite.visible = true
 		_cook_bar.visible = true
 		_update_bar()
+	elif _item == "food_cooked" and player.has_item("bun"):
+		player.take_item("bun")
+		player.pick_up("burger", 1.0)
+		_item = ""
+		_cook_time = 0.0
+		_food_sprite.visible = false
+		_cook_bar.visible = false
 	elif _item in ["food_cooked", "food_burnt"]:
 		if player.pick_up(_item):
 			_item = ""

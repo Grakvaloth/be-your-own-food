@@ -38,6 +38,11 @@ position = Vector2(-10, -80)
 text = "[Q]"
 visible = false
 
+[node name="OpenHint" type="Label" parent="."]
+position = Vector2(-10, -100)
+text = "[F]"
+visible = false
+
 [node name="InventoryLayer" type="CanvasLayer" parent="."]
 
 [node name="Slot0" type="Panel" parent="InventoryLayer"]

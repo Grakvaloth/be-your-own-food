@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
-const SPEED := 300.0
+const SPEED := 600.0
+const SPEED_BOOST := 1.5
 const INVENTORY_SIZE := 4
 const TEMP_THRESHOLD := 1.0 / 3.0
 
@@ -35,13 +36,16 @@ func _ready() -> void:
 	_update_ui()
 
 func _physics_process(delta: float) -> void:
-	velocity = Input.get_vector("move_left", "move_right", "move_up", "move_down") * SPEED
+	var spd := SPEED * (SPEED_BOOST if Input.is_physical_key_pressed(KEY_SHIFT) else 1.0)
+	velocity = Input.get_vector("move_left", "move_right", "move_up", "move_down") * spd
 	move_and_slide()
 	for i in INVENTORY_SIZE:
 		if inventory[i] == "food_cooked":
 			_temps[i] = maxf(0.0, _temps[i] - delta / 6.0)
 		elif inventory[i] == "burger":
 			_temps[i] = maxf(0.0, _temps[i] - delta / 9.0)
+	if Input.is_action_just_pressed("open_fridge"):
+		_interact_open()
 	if Input.is_action_just_pressed("interact"):
 		_interact()
 	if Input.is_action_just_pressed("interact_alt"):
@@ -162,6 +166,12 @@ func _interact() -> void:
 			area.on_player_interact(self)
 			return
 
+func _interact_open() -> void:
+	for body in $InteractArea.get_overlapping_bodies():
+		if body != self and body.has_method("can_open") and body.can_open(self) and body.has_method("on_player_open"):
+			body.on_player_open(self)
+			return
+
 func _interact_alt() -> void:
 	for body in $InteractArea.get_overlapping_bodies():
 		if body != self and body.has_method("can_interact_alt") and body.can_interact_alt(self) and body.has_method("on_player_interact_alt"):
@@ -171,11 +181,15 @@ func _interact_alt() -> void:
 func _update_hint() -> void:
 	var found_e := false
 	var found_q := false
+	var found_f := false
 	for body in $InteractArea.get_overlapping_bodies():
 		if body != self:
 			if not found_e and body.has_method("can_interact") and body.can_interact(self):
 				found_e = true
 			if not found_q and body.has_method("can_interact_alt") and body.can_interact_alt(self):
 				found_q = true
+			if not found_f and body.has_method("can_open") and body.can_open(self):
+				found_f = true
 	$InteractHint.visible = found_e
 	$AltHint.visible = found_q
+	$OpenHint.visible = found_f

@@ -22,12 +22,29 @@ func _process(delta: float) -> void:
 		_temp = minf(1.0, _temp + delta * HEAT_RATE)
 		_update_sprite()
 
+func _can_combine_with_player(player: CharacterBody2D) -> bool:
+	return (_item == "bun" and player.has_item("food_cooked")) or \
+		   (_item == "food_cooked" and player.has_item("bun"))
+
 func can_interact(player: CharacterBody2D) -> bool:
+	if _can_combine_with_player(player):
+		return true
 	if _item != "":
 		return not player.inventory_full()
 	return player.has_item("food_cooked") or player.has_item("burger") or player.has_item("bun")
 
 func on_player_interact(player: CharacterBody2D) -> void:
+	if _item == "bun" and player.has_item("food_cooked"):
+		player.take_item("food_cooked")
+		_item = "burger"
+		_temp = player.last_taken_temp
+		_update_sprite()
+		return
+	if _item == "food_cooked" and player.has_item("bun"):
+		player.take_item("bun")
+		_item = "burger"
+		_update_sprite()
+		return
 	if _item != "":
 		player.pick_up(_item, _temp)
 		_item = ""
