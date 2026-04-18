@@ -117,7 +117,7 @@ func _leave_early() -> void:
 
 func can_interact(player: CharacterBody2D) -> bool:
 	if state == State.EATING:
-		return player.has_item(current_order)
+		return player.has_item(current_order) and player.get_item_temp(current_order) >= 1.0 / 3.0
 	return false
 
 func on_player_interact(player: CharacterBody2D) -> void:

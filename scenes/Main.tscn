@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3]
+[gd_scene load_steps=16 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/Table.tscn" id="1_main1"]
 [ext_resource type="PackedScene" path="res://scenes/Stove.tscn" id="2_main1"]
@@ -10,12 +10,7 @@
 [ext_resource type="PackedScene" path="res://scenes/Trash.tscn" id="8_main1"]
 [ext_resource type="PackedScene" path="res://scenes/CashRegister.tscn" id="9_main1"]
 [ext_resource type="PackedScene" path="res://scenes/WarmingPlate.tscn" id="10_main1"]
-[ext_resource type="PackedScene" path="res://scenes/PlateCabinet.tscn" id="11_main1"]
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fridge"]
-size = Vector2(64, 128)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_pc"]
 size = Vector2(64, 128)
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_main1"]
@@ -39,9 +34,6 @@ texture = ExtResource("5_main1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Fridge"]
 shape = SubResource("RectangleShape2D_fridge")
-
-[node name="PlateCabinet" parent="." instance=ExtResource("11_main1")]
-position = Vector2(176, 120)
 
 [node name="Stove1" parent="." instance=ExtResource("2_main1")]
 position = Vector2(260, 120)

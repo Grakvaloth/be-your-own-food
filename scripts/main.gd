@@ -56,7 +56,7 @@ func queue_front() -> CharacterBody2D:
 func pop_queue_front() -> Node:
 	if _queue.size() == 0 or _free_seats.size() == 0:
 		return null
-	var seat := _free_seats.pop_front()
+	var seat: Node = _free_seats.pop_front()
 	_queue.pop_front()
 	_advance_queue()
 	return seat

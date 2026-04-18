@@ -1,10 +1,12 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=8 format=3]
 
 [ext_resource type="Texture2D" path="res://assets/guest.svg" id="1_guest1"]
 [ext_resource type="Script" path="res://scripts/guest.gd" id="2_guest1"]
 [ext_resource type="Texture2D" path="res://assets/order_bubble.svg" id="3_guest1"]
-[ext_resource type="Texture2D" path="res://assets/burger.svg" id="4_guest1"]
-[ext_resource type="Script" path="res://scripts/cook_bar.gd" id="5_guest1"]
+[ext_resource type="Texture2D" path="res://assets/bun.svg" id="4_guest1"]
+[ext_resource type="Texture2D" path="res://assets/food_cooked.svg" id="5_guest1"]
+[ext_resource type="Texture2D" path="res://assets/burger.svg" id="6_guest1"]
+[ext_resource type="Script" path="res://scripts/cook_bar.gd" id="7_guest1"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_guest1"]
 radius = 28.0
@@ -32,18 +34,28 @@ visible = false
 [node name="Bubble" type="Sprite2D" parent="OrderBubble"]
 texture = ExtResource("3_guest1")
 
-[node name="OrderIcon" type="Sprite2D" parent="OrderBubble"]
-position = Vector2(2, -6)
-scale = Vector2(0.7, 0.7)
+[node name="BunTop" type="Sprite2D" parent="OrderBubble"]
+position = Vector2(2, -16)
+scale = Vector2(0.45, 0.45)
+texture = ExtResource("4_guest1")
+
+[node name="MeatIcon" type="Sprite2D" parent="OrderBubble"]
+position = Vector2(2, -4)
+scale = Vector2(0.45, 0.45)
+texture = ExtResource("5_guest1")
+
+[node name="BunBottom" type="Sprite2D" parent="OrderBubble"]
+position = Vector2(2, 8)
+scale = Vector2(0.45, 0.45)
 texture = ExtResource("4_guest1")
 
 [node name="FoodSprite" type="Sprite2D" parent="."]
 position = Vector2(0, 42)
 scale = Vector2(0.9, 0.9)
-texture = ExtResource("4_guest1")
+texture = ExtResource("6_guest1")
 visible = false
 
 [node name="TimerBar" type="Node2D" parent="."]
 position = Vector2(0, 50)
-script = ExtResource("5_guest1")
+script = ExtResource("7_guest1")
 visible = false
