@@ -39,23 +39,23 @@ texture = ExtResource("5_main1")
 shape = SubResource("RectangleShape2D_fridge")
 
 [node name="Stove1" parent="." instance=ExtResource("2_main1")]
-position = Vector2(416, 160)
+position = Vector2(276, 160)
 scale = Vector2(1.8, 1.8)
 
 [node name="StoveSlot1" parent="." instance=ExtResource("7_main1")]
-position = Vector2(672, 160)
+position = Vector2(392, 160)
 scale = Vector2(1.8, 1.8)
 
 [node name="StoveSlot2" parent="." instance=ExtResource("7_main1")]
-position = Vector2(928, 160)
+position = Vector2(508, 160)
 scale = Vector2(1.8, 1.8)
 
 [node name="StoveSlot3" parent="." instance=ExtResource("7_main1")]
-position = Vector2(1184, 160)
+position = Vector2(624, 160)
 scale = Vector2(1.8, 1.8)
 
 [node name="StoveSlot4" parent="." instance=ExtResource("7_main1")]
-position = Vector2(1440, 160)
+position = Vector2(740, 160)
 scale = Vector2(1.8, 1.8)
 
 [node name="Trash" parent="." instance=ExtResource("8_main1")]
@@ -71,23 +71,23 @@ position = Vector2(320, 640)
 scale = Vector2(1.8, 1.8)
 
 [node name="WarmerSlot1" parent="." instance=ExtResource("7_main1")]
-position = Vector2(576, 640)
+position = Vector2(436, 640)
 scale = Vector2(1.8, 1.8)
 
 [node name="WarmerSlot2" parent="." instance=ExtResource("7_main1")]
-position = Vector2(832, 640)
+position = Vector2(552, 640)
 scale = Vector2(1.8, 1.8)
 
 [node name="WarmerSlot3" parent="." instance=ExtResource("7_main1")]
-position = Vector2(1088, 640)
+position = Vector2(668, 640)
 scale = Vector2(1.8, 1.8)
 
 [node name="WarmerSlot4" parent="." instance=ExtResource("7_main1")]
-position = Vector2(1344, 640)
+position = Vector2(784, 640)
 scale = Vector2(1.8, 1.8)
 
 [node name="CashRegister" parent="." instance=ExtResource("9_main1")]
-position = Vector2(1600, 640)
+position = Vector2(900, 640)
 scale = Vector2(1.8, 1.8)
 
 [node name="Table1" parent="." instance=ExtResource("1_main1")]

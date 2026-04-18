@@ -4,11 +4,11 @@ const SPAWN_INTERVAL := 10.0
 const MAX_GUESTS := 6
 const POINTS_PER_GUEST := 100
 const QUEUE_POSITIONS := [
-	Vector2(1600, 880),
-	Vector2(1240, 880),
-	Vector2(880, 880),
-	Vector2(520, 880),
-	Vector2(160, 880),
+	Vector2(900, 880),
+	Vector2(720, 880),
+	Vector2(540, 880),
+	Vector2(360, 880),
+	Vector2(180, 880),
 ]
 
 var score := 0
