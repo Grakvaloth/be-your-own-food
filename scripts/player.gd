@@ -8,6 +8,7 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()
 	if Input.is_action_just_pressed("interact"):
 		_interact()
+	_update_hint()
 
 func pick_up(item_name: String) -> void:
 	if carried_item == "":
@@ -27,3 +28,11 @@ func _interact() -> void:
 		if area.has_method("on_player_interact"):
 			area.on_player_interact(self)
 			return
+
+func _update_hint() -> void:
+	var found := false
+	for body in $InteractArea.get_overlapping_bodies():
+		if body != self and body.has_method("on_player_interact"):
+			found = true
+			break
+	$InteractHint.visible = found

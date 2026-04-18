@@ -8,10 +8,13 @@ var state := State.ENTERING
 var current_order := "food_cooked"
 var assigned_table: Node = null
 
-func _ready() -> void:
-	_walk_target = Vector2(150, 360)
+@onready var _nav: NavigationAgent2D = $NavAgent
 
 var _walk_target := Vector2.ZERO
+
+func _ready() -> void:
+	_walk_target = Vector2(150, 360)
+	$OrderBubble.visible = false
 
 func _physics_process(_delta: float) -> void:
 	match state:
@@ -22,19 +25,21 @@ func _physics_process(_delta: float) -> void:
 			move_and_slide()
 
 func _step_toward(pos: Vector2) -> void:
-	var diff := pos - global_position
-	if diff.length() < 8.0:
+	if global_position.distance_to(pos) < 12.0:
 		velocity = Vector2.ZERO
 		move_and_slide()
 		_on_reached()
-	else:
-		velocity = diff.normalized() * SPEED
-		move_and_slide()
+		return
+	_nav.target_position = pos
+	var next := _nav.get_next_path_position()
+	velocity = (next - global_position).normalized() * SPEED
+	move_and_slide()
 
 func _on_reached() -> void:
 	match state:
 		State.ENTERING:
 			state = State.WAITING
+			$OrderBubble.visible = true
 		State.WALKING_TO_TABLE:
 			state = State.EATING
 		State.LEAVING:
@@ -46,6 +51,7 @@ func on_player_interact(player: CharacterBody2D) -> void:
 			if assigned_table != null:
 				_walk_target = assigned_table.get_node("SeatPoint").global_position
 				state = State.WALKING_TO_TABLE
+				$OrderBubble.visible = false
 		State.EATING:
 			if player.carried_item == current_order:
 				player.drop()
