@@ -4,11 +4,11 @@ const SPAWN_INTERVAL := 10.0
 const MAX_GUESTS := 6
 const POINTS_PER_GUEST := 100
 const QUEUE_POSITIONS := [
-	Vector2(832, 420),
-	Vector2(742, 420),
-	Vector2(652, 420),
-	Vector2(562, 420),
-	Vector2(472, 420),
+	Vector2(1440, 440),
+	Vector2(1260, 440),
+	Vector2(1080, 440),
+	Vector2(900, 440),
+	Vector2(720, 440),
 ]
 
 var score := 0
@@ -41,7 +41,7 @@ func _spawn_guest() -> void:
 		return
 	var g: CharacterBody2D = preload("res://scenes/Guest.tscn").instantiate()
 	var queue_pos := _queue.size()
-	g.global_position = Vector2(-80, 420)
+	g.global_position = Vector2(-80, 440)
 	g.queue_index = queue_pos
 	add_child(g)
 	_guests.append(g)

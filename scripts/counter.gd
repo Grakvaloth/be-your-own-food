@@ -22,24 +22,34 @@ func _process(delta: float) -> void:
 		_temp = maxf(0.0, _temp - delta * COOL_RATE)
 		_update_sprite()
 
+func _find_combine_item(player: CharacterBody2D) -> String:
+	var active: String = player.get_active_item()
+	if _can_combine(_item, active):
+		return active
+	for i in player.INVENTORY_SIZE:
+		if _can_combine(_item, player.inventory[i]):
+			return player.inventory[i]
+	return ""
+
 func can_interact(player: CharacterBody2D) -> bool:
-	var active := player.get_active_item()
-	if _item != "" and _can_combine(_item, active):
+	var active: String = player.get_active_item()
+	if _item != "" and _find_combine_item(player) != "":
 		return true
 	if _item != "":
 		return not player.inventory_full()
 	return active in ["food_cooked", "bun", "burger"]
 
 func on_player_interact(player: CharacterBody2D) -> void:
-	var active := player.get_active_item()
-	if _item != "" and _can_combine(_item, active):
-		player.take_item(active)
-		if _item == "bun":
-			_temp = player.last_taken_temp
-		_item = "burger"
-		_update_sprite()
-	elif _item != "":
-		if not player.inventory_full():
+	var active: String = player.get_active_item()
+	if _item != "":
+		var combine: String = _find_combine_item(player)
+		if combine != "":
+			player.take_item(combine)
+			if _item == "bun":
+				_temp = player.last_taken_temp
+			_item = "burger"
+			_update_sprite()
+		elif not player.inventory_full():
 			player.pick_up(_item, _temp)
 			_item = ""
 			_temp = 1.0

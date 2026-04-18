@@ -30,10 +30,11 @@ func _physics_process(delta: float) -> void:
 		State.WAITING:
 			velocity = Vector2.ZERO
 			move_and_slide()
-			_wait_timer -= delta
-			_update_timer_bar()
-			if _wait_timer <= 0.0:
-				_leave_early()
+			if queue_index == 0:
+				_wait_timer -= delta
+				_update_timer_bar()
+				if _wait_timer <= 0.0:
+					_leave_early()
 		State.EATING:
 			velocity = Vector2.ZERO
 			move_and_slide()
@@ -52,8 +53,10 @@ func _physics_process(delta: float) -> void:
 
 func walk_to_queue(pos: Vector2) -> void:
 	_walk_target = pos
-	if state == State.ENTERING or state == State.QUEUEING:
-		state = State.ENTERING if global_position.x < 0 else State.QUEUEING
+	$OrderBubble.visible = false
+	$TimerBar.visible = false
+	if state == State.WAITING:
+		state = State.QUEUEING
 
 func seat_assigned(seat: Node) -> void:
 	if seat == null:
@@ -76,15 +79,14 @@ func _step_toward(pos: Vector2) -> void:
 
 func _on_reached() -> void:
 	match state:
-		State.ENTERING:
-			state = State.QUEUEING
-		State.QUEUEING:
+		State.ENTERING, State.QUEUEING:
 			state = State.WAITING
-			_wait_timer = ORDER_WAIT
-			$OrderBubble.visible = true
-			$TimerBar.max_value = ORDER_WAIT
-			$TimerBar.visible = true
-			_update_timer_bar()
+			if queue_index == 0:
+				_wait_timer = ORDER_WAIT
+				$OrderBubble.visible = true
+				$TimerBar.max_value = ORDER_WAIT
+				$TimerBar.visible = true
+				_update_timer_bar()
 		State.WALKING_TO_TABLE:
 			if not _at_aisle:
 				_at_aisle = true
@@ -122,7 +124,7 @@ func can_interact(player: CharacterBody2D) -> bool:
 
 func on_player_interact(player: CharacterBody2D) -> void:
 	if state == State.EATING:
-		if player.has_item(current_order):
+		if player.has_item(current_order) and player.get_item_temp(current_order) >= 1.0 / 3.0:
 			player.take_item(current_order)
 			_place_food_toward_table()
 			$FoodSprite.visible = true
