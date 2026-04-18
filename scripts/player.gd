@@ -18,6 +18,7 @@ func _ready() -> void:
 	_textures = {
 		"food_raw": load("res://assets/food_raw.svg"),
 		"food_cooked": load("res://assets/food_cooked.svg"),
+		"food_burnt": load("res://assets/food_cooked.svg"),
 	}
 	_update_ui()
 
@@ -47,9 +48,20 @@ func take_item(item_name: String) -> String:
 			return item_name
 	return ""
 
+func take_any_item() -> String:
+	for i in INVENTORY_SIZE:
+		if inventory[i] != "":
+			var item := inventory[i]
+			inventory[i] = ""
+			_update_ui()
+			return item
+	return ""
+
 func _update_ui() -> void:
 	for i in INVENTORY_SIZE:
-		_slots[i].texture = _textures.get(inventory[i], null)
+		var item := inventory[i]
+		_slots[i].texture = _textures.get(item, null)
+		_slots[i].modulate = Color(0.2, 0.2, 0.2) if item == "food_burnt" else Color.WHITE
 
 func _interact() -> void:
 	for body in $InteractArea.get_overlapping_bodies():

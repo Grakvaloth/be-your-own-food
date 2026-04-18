@@ -24,5 +24,8 @@ texture = ExtResource("2_table1")
 position = Vector2(0, 52)
 texture = ExtResource("2_table1")
 
-[node name="SeatPoint" type="Marker2D" parent="."]
+[node name="SeatPoint_Top" type="Marker2D" parent="."]
+position = Vector2(0, -52)
+
+[node name="SeatPoint_Bottom" type="Marker2D" parent="."]
 position = Vector2(0, 52)

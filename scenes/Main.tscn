@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=11 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/Table.tscn" id="1_main1"]
 [ext_resource type="PackedScene" path="res://scenes/Stove.tscn" id="2_main1"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" path="res://assets/fridge.svg" id="5_main1"]
 [ext_resource type="Script" path="res://scripts/fridge.gd" id="6_main1"]
 [ext_resource type="PackedScene" path="res://scenes/Counter.tscn" id="7_main1"]
+[ext_resource type="PackedScene" path="res://scenes/Trash.tscn" id="8_main1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_main1"]
 size = Vector2(64, 128)
@@ -32,6 +33,9 @@ texture = ExtResource("5_main1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Fridge"]
 shape = SubResource("RectangleShape2D_main1")
+
+[node name="Trash" parent="." instance=ExtResource("8_main1")]
+position = Vector2(820, 120)
 
 [node name="Stove1" parent="." instance=ExtResource("2_main1")]
 position = Vector2(350, 120)

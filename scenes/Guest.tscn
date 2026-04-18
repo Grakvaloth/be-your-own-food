@@ -9,8 +9,8 @@
 radius = 28.0
 
 [node name="Guest" type="CharacterBody2D"]
-collision_layer = 1
-collision_mask = 3
+collision_layer = 4
+collision_mask = 2
 script = ExtResource("2_guest1")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -36,3 +36,9 @@ texture = ExtResource("3_guest1")
 position = Vector2(2, -6)
 scale = Vector2(0.7, 0.7)
 texture = ExtResource("4_guest1")
+
+[node name="FoodSprite" type="Sprite2D" parent="."]
+position = Vector2(0, 42)
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("4_guest1")
+visible = false
