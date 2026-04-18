@@ -16,7 +16,7 @@
 size = Vector2(64, 128)
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_main1"]
-vertices = PackedVector2Array(-200, 400, 1920, 400, 1920, 1080, -200, 1080)
+vertices = PackedVector2Array(-400, 800, 3840, 800, 3840, 2200, -400, 2200)
 polygons = [PackedInt32Array(0, 1, 2, 3)]
 
 [node name="Main" type="Node2D"]
@@ -26,8 +26,8 @@ script = ExtResource("4_main1")
 navigation_polygon = SubResource("NavigationPolygon_main1")
 
 [node name="Fridge" type="StaticBody2D" parent="."]
-position = Vector2(80, 144)
-scale = Vector2(2, 2)
+position = Vector2(160, 288)
+scale = Vector2(1.8, 1.8)
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("6_main1")
@@ -39,71 +39,71 @@ texture = ExtResource("5_main1")
 shape = SubResource("RectangleShape2D_fridge")
 
 [node name="Stove1" parent="." instance=ExtResource("2_main1")]
-position = Vector2(208, 80)
-scale = Vector2(2, 2)
+position = Vector2(416, 160)
+scale = Vector2(1.8, 1.8)
 
 [node name="StoveSlot1" parent="." instance=ExtResource("7_main1")]
-position = Vector2(336, 80)
-scale = Vector2(2, 2)
+position = Vector2(672, 160)
+scale = Vector2(1.8, 1.8)
 
 [node name="StoveSlot2" parent="." instance=ExtResource("7_main1")]
-position = Vector2(464, 80)
-scale = Vector2(2, 2)
+position = Vector2(928, 160)
+scale = Vector2(1.8, 1.8)
 
 [node name="StoveSlot3" parent="." instance=ExtResource("7_main1")]
-position = Vector2(592, 80)
-scale = Vector2(2, 2)
+position = Vector2(1184, 160)
+scale = Vector2(1.8, 1.8)
 
 [node name="StoveSlot4" parent="." instance=ExtResource("7_main1")]
-position = Vector2(720, 80)
-scale = Vector2(2, 2)
+position = Vector2(1440, 160)
+scale = Vector2(1.8, 1.8)
 
 [node name="Trash" parent="." instance=ExtResource("8_main1")]
-position = Vector2(1000, 80)
-scale = Vector2(2, 2)
+position = Vector2(2000, 160)
+scale = Vector2(1.8, 1.8)
 
 [node name="UpgradeComputer" parent="." instance=ExtResource("11_main1")]
-position = Vector2(1800, 80)
-scale = Vector2(2, 2)
+position = Vector2(3600, 160)
+scale = Vector2(1.8, 1.8)
 
 [node name="WarmingPlate1" parent="." instance=ExtResource("10_main1")]
-position = Vector2(160, 320)
-scale = Vector2(2, 2)
+position = Vector2(320, 640)
+scale = Vector2(1.8, 1.8)
 
 [node name="WarmerSlot1" parent="." instance=ExtResource("7_main1")]
-position = Vector2(288, 320)
-scale = Vector2(2, 2)
+position = Vector2(576, 640)
+scale = Vector2(1.8, 1.8)
 
 [node name="WarmerSlot2" parent="." instance=ExtResource("7_main1")]
-position = Vector2(416, 320)
-scale = Vector2(2, 2)
+position = Vector2(832, 640)
+scale = Vector2(1.8, 1.8)
 
 [node name="WarmerSlot3" parent="." instance=ExtResource("7_main1")]
-position = Vector2(544, 320)
-scale = Vector2(2, 2)
+position = Vector2(1088, 640)
+scale = Vector2(1.8, 1.8)
 
 [node name="WarmerSlot4" parent="." instance=ExtResource("7_main1")]
-position = Vector2(672, 320)
-scale = Vector2(2, 2)
+position = Vector2(1344, 640)
+scale = Vector2(1.8, 1.8)
 
 [node name="CashRegister" parent="." instance=ExtResource("9_main1")]
-position = Vector2(800, 320)
-scale = Vector2(2, 2)
+position = Vector2(1600, 640)
+scale = Vector2(1.8, 1.8)
 
 [node name="Table1" parent="." instance=ExtResource("1_main1")]
-position = Vector2(480, 780)
-scale = Vector2(2, 2)
+position = Vector2(960, 1560)
+scale = Vector2(1.8, 1.8)
 
 [node name="Table2" parent="." instance=ExtResource("1_main1")]
-position = Vector2(960, 780)
-scale = Vector2(2, 2)
+position = Vector2(1920, 1560)
+scale = Vector2(1.8, 1.8)
 
 [node name="Table3" parent="." instance=ExtResource("1_main1")]
-position = Vector2(1440, 780)
-scale = Vector2(2, 2)
+position = Vector2(2880, 1560)
+scale = Vector2(1.8, 1.8)
 
 [node name="Player" parent="." instance=ExtResource("3_main1")]
-position = Vector2(700, 550)
+position = Vector2(1400, 1100)
 
 [node name="HUD" type="CanvasLayer" parent="."]
 

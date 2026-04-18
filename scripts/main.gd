@@ -4,11 +4,11 @@ const SPAWN_INTERVAL := 10.0
 const MAX_GUESTS := 6
 const POINTS_PER_GUEST := 100
 const QUEUE_POSITIONS := [
-	Vector2(800, 440),
-	Vector2(620, 440),
-	Vector2(440, 440),
-	Vector2(260, 440),
-	Vector2(80, 440),
+	Vector2(1600, 880),
+	Vector2(1240, 880),
+	Vector2(880, 880),
+	Vector2(520, 880),
+	Vector2(160, 880),
 ]
 
 var score := 0
@@ -48,7 +48,7 @@ func _spawn_guest() -> void:
 		return
 	var g: CharacterBody2D = preload("res://scenes/Guest.tscn").instantiate()
 	var queue_pos := _queue.size()
-	g.global_position = Vector2(-80, 440)
+	g.global_position = Vector2(-160, 880)
 	g.queue_index = queue_pos
 	add_child(g)
 	_guests.append(g)
@@ -126,7 +126,7 @@ func buy_warmer_upgrade() -> bool:
 	return true
 
 func _replace_with_stove(slot: Node) -> void:
-	var pos := slot.global_position
+	var pos: Vector2 = (slot as Node2D).global_position
 	slot.queue_free()
 	var stove: Node = preload("res://scenes/Stove.tscn").instantiate()
 	stove.scale = Vector2(2, 2)
@@ -134,7 +134,7 @@ func _replace_with_stove(slot: Node) -> void:
 	stove.global_position = pos
 
 func _replace_with_warmer(slot: Node) -> void:
-	var pos := slot.global_position
+	var pos: Vector2 = (slot as Node2D).global_position
 	slot.queue_free()
 	var warmer: Node = preload("res://scenes/WarmingPlate.tscn").instantiate()
 	warmer.scale = Vector2(2, 2)

@@ -6,7 +6,7 @@ const SPEED := 120.0
 const EAT_DURATION := 10.0
 const ORDER_WAIT := 30.0
 const FOOD_WAIT := 60.0
-const AISLE_X := 300.0
+const AISLE_X := 600.0
 
 var state := State.ENTERING
 var current_order := "burger"
@@ -49,7 +49,7 @@ func _physics_process(delta: float) -> void:
 			if _eat_timer <= 0.0:
 				$FoodSprite.visible = false
 				state = State.LEAVING
-				_walk_target = Vector2(-80, 900)
+				_walk_target = Vector2(-160, 1800)
 
 func walk_to_queue(pos: Vector2) -> void:
 	_walk_target = pos
@@ -115,7 +115,7 @@ func _leave_early() -> void:
 	$TimerBar.visible = false
 	get_parent().guest_left_early(self)
 	state = State.LEAVING
-	_walk_target = Vector2(-80, 900)
+	_walk_target = Vector2(-160, 1800)
 
 func can_interact(player: CharacterBody2D) -> bool:
 	if state == State.EATING:
