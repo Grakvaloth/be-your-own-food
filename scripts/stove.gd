@@ -28,13 +28,14 @@ func _process(delta: float) -> void:
 
 func _update_bar() -> void:
 	if _item == "food_burnt":
-		_cook_bar.update_bar(10.0, Color(0.2, 0.2, 0.2))
+		_cook_bar.update_bar(0.0, Color(0.2, 0.2, 0.2), 5.0)
 	elif _item == "food_cooked":
-		_cook_bar.update_bar(10.0, Color.GREEN)
+		var remaining := 15.0 - _cook_time
+		_cook_bar.update_bar(remaining, Color(1.0, 0.1, 0.1), 5.0)
 	elif _cook_time >= 5.0:
-		_cook_bar.update_bar(_cook_time, Color.YELLOW)
+		_cook_bar.update_bar(_cook_time - 5.0, Color.YELLOW, 5.0)
 	else:
-		_cook_bar.update_bar(_cook_time, Color(1.0, 0.6, 0.1))
+		_cook_bar.update_bar(_cook_time, Color(1.0, 0.6, 0.1), 5.0)
 
 func can_interact(player: CharacterBody2D) -> bool:
 	if _item == "" and player.has_item("food_raw"):

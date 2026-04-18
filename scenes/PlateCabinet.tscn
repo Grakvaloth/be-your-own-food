@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/plate_cabinet.svg" id="1_pc"]
+[ext_resource type="Script" path="res://scripts/plate_cabinet.gd" id="2_pc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pc"]
+size = Vector2(64, 128)
+
+[node name="PlateCabinet" type="StaticBody2D"]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("2_pc")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_pc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_pc")

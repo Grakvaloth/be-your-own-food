@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" path="res://assets/guest.svg" id="1_guest1"]
 [ext_resource type="Script" path="res://scripts/guest.gd" id="2_guest1"]
 [ext_resource type="Texture2D" path="res://assets/order_bubble.svg" id="3_guest1"]
-[ext_resource type="Texture2D" path="res://assets/food_cooked.svg" id="4_guest1"]
+[ext_resource type="Texture2D" path="res://assets/burger.svg" id="4_guest1"]
 [ext_resource type="Script" path="res://scripts/cook_bar.gd" id="5_guest1"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_guest1"]

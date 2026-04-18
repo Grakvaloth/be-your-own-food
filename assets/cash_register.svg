@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+  <rect x="4" y="16" width="56" height="44" fill="#666" stroke="#444" stroke-width="2" rx="3"/>
+  <rect x="10" y="20" width="36" height="18" fill="#88ccff" rx="2"/>
+  <text x="28" y="33" font-size="8" fill="#004" text-anchor="middle">€0.00</text>
+  <rect x="10" y="44" width="10" height="7" fill="#888" rx="1"/>
+  <rect x="24" y="44" width="10" height="7" fill="#888" rx="1"/>
+  <rect x="38" y="44" width="14" height="7" fill="#c44" rx="1"/>
+  <rect x="8" y="8" width="40" height="10" fill="#555" rx="3"/>
+</svg>

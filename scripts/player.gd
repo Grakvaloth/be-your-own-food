@@ -3,13 +3,26 @@ extends CharacterBody2D
 const SPEED := 200.0
 const INVENTORY_SIZE := 4
 
+const COMBINE_RULES := {
+	"plate": {"bun": "plate_bun"},
+	"plate_bun": {"food_cooked": "plate_burger"},
+	"plate_burger": {"bun": "burger"},
+}
+
 var inventory: Array[String] = ["", "", "", ""]
+var _active_slot := 0
 
 @onready var _slots: Array[TextureRect] = [
 	$InventoryLayer/Slot0/Icon,
 	$InventoryLayer/Slot1/Icon,
 	$InventoryLayer/Slot2/Icon,
 	$InventoryLayer/Slot3/Icon,
+]
+@onready var _panels: Array[Panel] = [
+	$InventoryLayer/Slot0,
+	$InventoryLayer/Slot1,
+	$InventoryLayer/Slot2,
+	$InventoryLayer/Slot3,
 ]
 
 var _textures: Dictionary = {}
@@ -19,6 +32,11 @@ func _ready() -> void:
 		"food_raw": load("res://assets/food_raw.svg"),
 		"food_cooked": load("res://assets/food_cooked.svg"),
 		"food_burnt": load("res://assets/food_cooked.svg"),
+		"plate": load("res://assets/plate.svg"),
+		"bun": load("res://assets/bun.svg"),
+		"plate_bun": load("res://assets/plate_bun.svg"),
+		"plate_burger": load("res://assets/plate_burger.svg"),
+		"burger": load("res://assets/burger.svg"),
 	}
 	_update_ui()
 
@@ -27,9 +45,48 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()
 	if Input.is_action_just_pressed("interact"):
 		_interact()
+	if Input.is_action_just_pressed("interact_alt"):
+		_interact_alt()
+	if Input.is_action_just_pressed("slot_1"):
+		_set_active_slot(0)
+	if Input.is_action_just_pressed("slot_2"):
+		_set_active_slot(1)
+	if Input.is_action_just_pressed("slot_3"):
+		_set_active_slot(2)
+	if Input.is_action_just_pressed("slot_4"):
+		_set_active_slot(3)
+	if Input.is_action_just_pressed("scroll_up"):
+		_set_active_slot((_active_slot - 1 + INVENTORY_SIZE) % INVENTORY_SIZE)
+	if Input.is_action_just_pressed("scroll_down"):
+		_set_active_slot((_active_slot + 1) % INVENTORY_SIZE)
 	_update_hint()
 
+func _set_active_slot(idx: int) -> void:
+	_active_slot = idx
+	_update_ui()
+
 func pick_up(item_name: String) -> bool:
+	var active_item := inventory[_active_slot]
+	if active_item != "":
+		var rules: Dictionary = COMBINE_RULES.get(active_item, {})
+		if rules.has(item_name):
+			inventory[_active_slot] = rules[item_name]
+			_update_ui()
+			return true
+	if active_item == "":
+		inventory[_active_slot] = item_name
+		_update_ui()
+		return true
+	for i in INVENTORY_SIZE:
+		if i == _active_slot:
+			continue
+		var slot_item := inventory[i]
+		if slot_item != "":
+			var rules2: Dictionary = COMBINE_RULES.get(slot_item, {})
+			if rules2.has(item_name):
+				inventory[i] = rules2[item_name]
+				_update_ui()
+				return true
 	for i in INVENTORY_SIZE:
 		if inventory[i] == "":
 			inventory[i] = item_name
@@ -50,6 +107,10 @@ func inventory_full() -> bool:
 	return not ("" in inventory)
 
 func take_item(item_name: String) -> String:
+	if inventory[_active_slot] == item_name:
+		inventory[_active_slot] = ""
+		_update_ui()
+		return item_name
 	for i in INVENTORY_SIZE:
 		if inventory[i] == item_name:
 			inventory[i] = ""
@@ -58,6 +119,11 @@ func take_item(item_name: String) -> String:
 	return ""
 
 func take_any_item() -> String:
+	if inventory[_active_slot] != "":
+		var item := inventory[_active_slot]
+		inventory[_active_slot] = ""
+		_update_ui()
+		return item
 	for i in INVENTORY_SIZE:
 		if inventory[i] != "":
 			var item := inventory[i]
@@ -71,6 +137,11 @@ func _update_ui() -> void:
 		var item := inventory[i]
 		_slots[i].texture = _textures.get(item, null)
 		_slots[i].modulate = Color(0.2, 0.2, 0.2) if item == "food_burnt" else Color.WHITE
+		var panel := _panels[i]
+		if i == _active_slot:
+			panel.modulate = Color(1.0, 1.0, 0.3)
+		else:
+			panel.modulate = Color.WHITE
 
 func _interact() -> void:
 	for body in $InteractArea.get_overlapping_bodies():
@@ -82,10 +153,20 @@ func _interact() -> void:
 			area.on_player_interact(self)
 			return
 
-func _update_hint() -> void:
-	var found := false
+func _interact_alt() -> void:
 	for body in $InteractArea.get_overlapping_bodies():
-		if body != self and body.has_method("can_interact") and body.can_interact(self):
-			found = true
-			break
-	$InteractHint.visible = found
+		if body != self and body.has_method("can_interact_alt") and body.can_interact_alt(self) and body.has_method("on_player_interact_alt"):
+			body.on_player_interact_alt(self)
+			return
+
+func _update_hint() -> void:
+	var found_e := false
+	var found_q := false
+	for body in $InteractArea.get_overlapping_bodies():
+		if body != self:
+			if not found_e and body.has_method("can_interact") and body.can_interact(self):
+				found_e = true
+			if not found_q and body.has_method("can_interact_alt") and body.can_interact_alt(self):
+				found_q = true
+	$InteractHint.visible = found_e
+	$AltHint.visible = found_q

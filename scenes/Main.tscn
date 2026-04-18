@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=17 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/Table.tscn" id="1_main1"]
 [ext_resource type="PackedScene" path="res://scenes/Stove.tscn" id="2_main1"]
@@ -8,8 +8,14 @@
 [ext_resource type="Script" path="res://scripts/fridge.gd" id="6_main1"]
 [ext_resource type="PackedScene" path="res://scenes/Counter.tscn" id="7_main1"]
 [ext_resource type="PackedScene" path="res://scenes/Trash.tscn" id="8_main1"]
+[ext_resource type="PackedScene" path="res://scenes/CashRegister.tscn" id="9_main1"]
+[ext_resource type="PackedScene" path="res://scenes/WarmingPlate.tscn" id="10_main1"]
+[ext_resource type="PackedScene" path="res://scenes/PlateCabinet.tscn" id="11_main1"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_main1"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fridge"]
+size = Vector2(64, 128)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pc"]
 size = Vector2(64, 128)
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_main1"]
@@ -32,25 +38,61 @@ script = ExtResource("6_main1")
 texture = ExtResource("5_main1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Fridge"]
-shape = SubResource("RectangleShape2D_main1")
+shape = SubResource("RectangleShape2D_fridge")
 
-[node name="Trash" parent="." instance=ExtResource("8_main1")]
-position = Vector2(900, 120)
+[node name="PlateCabinet" parent="." instance=ExtResource("11_main1")]
+position = Vector2(176, 120)
 
 [node name="Stove1" parent="." instance=ExtResource("2_main1")]
 position = Vector2(260, 120)
 
 [node name="Stove2" parent="." instance=ExtResource("2_main1")]
-position = Vector2(390, 120)
+position = Vector2(324, 120)
 
 [node name="Stove3" parent="." instance=ExtResource("2_main1")]
-position = Vector2(520, 120)
+position = Vector2(388, 120)
 
 [node name="Stove4" parent="." instance=ExtResource("2_main1")]
-position = Vector2(650, 120)
+position = Vector2(452, 120)
 
 [node name="Stove5" parent="." instance=ExtResource("2_main1")]
-position = Vector2(780, 120)
+position = Vector2(516, 120)
+
+[node name="Trash" parent="." instance=ExtResource("8_main1")]
+position = Vector2(900, 120)
+
+[node name="WarmingPlate1" parent="." instance=ExtResource("10_main1")]
+position = Vector2(160, 280)
+
+[node name="WarmingPlate2" parent="." instance=ExtResource("10_main1")]
+position = Vector2(224, 280)
+
+[node name="WarmingPlate3" parent="." instance=ExtResource("10_main1")]
+position = Vector2(288, 280)
+
+[node name="WarmingPlate4" parent="." instance=ExtResource("10_main1")]
+position = Vector2(352, 280)
+
+[node name="WarmingPlate5" parent="." instance=ExtResource("10_main1")]
+position = Vector2(416, 280)
+
+[node name="Counter1" parent="." instance=ExtResource("7_main1")]
+position = Vector2(480, 280)
+
+[node name="Counter2" parent="." instance=ExtResource("7_main1")]
+position = Vector2(544, 280)
+
+[node name="Counter3" parent="." instance=ExtResource("7_main1")]
+position = Vector2(608, 280)
+
+[node name="Counter4" parent="." instance=ExtResource("7_main1")]
+position = Vector2(672, 280)
+
+[node name="Counter5" parent="." instance=ExtResource("7_main1")]
+position = Vector2(736, 280)
+
+[node name="CashRegister" parent="." instance=ExtResource("9_main1")]
+position = Vector2(832, 280)
 
 [node name="Table1" parent="." instance=ExtResource("1_main1")]
 position = Vector2(480, 700)
@@ -60,36 +102,6 @@ position = Vector2(960, 700)
 
 [node name="Table3" parent="." instance=ExtResource("1_main1")]
 position = Vector2(1440, 700)
-
-[node name="Counter1" parent="." instance=ExtResource("7_main1")]
-position = Vector2(160, 280)
-
-[node name="Counter2" parent="." instance=ExtResource("7_main1")]
-position = Vector2(224, 280)
-
-[node name="Counter3" parent="." instance=ExtResource("7_main1")]
-position = Vector2(288, 280)
-
-[node name="Counter4" parent="." instance=ExtResource("7_main1")]
-position = Vector2(352, 280)
-
-[node name="Counter5" parent="." instance=ExtResource("7_main1")]
-position = Vector2(416, 280)
-
-[node name="Counter6" parent="." instance=ExtResource("7_main1")]
-position = Vector2(480, 280)
-
-[node name="Counter7" parent="." instance=ExtResource("7_main1")]
-position = Vector2(544, 280)
-
-[node name="Counter8" parent="." instance=ExtResource("7_main1")]
-position = Vector2(608, 280)
-
-[node name="Counter9" parent="." instance=ExtResource("7_main1")]
-position = Vector2(672, 280)
-
-[node name="Counter10" parent="." instance=ExtResource("7_main1")]
-position = Vector2(736, 280)
 
 [node name="Player" parent="." instance=ExtResource("3_main1")]
 position = Vector2(960, 500)
