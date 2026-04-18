@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-const SPEED := 200.0
+const SPEED := 300.0
 const INVENTORY_SIZE := 4
 const TEMP_THRESHOLD := 1.0 / 3.0
 
@@ -38,8 +38,10 @@ func _physics_process(delta: float) -> void:
 	velocity = Input.get_vector("move_left", "move_right", "move_up", "move_down") * SPEED
 	move_and_slide()
 	for i in INVENTORY_SIZE:
-		if inventory[i] in ["food_cooked", "burger"]:
+		if inventory[i] == "food_cooked":
 			_temps[i] = maxf(0.0, _temps[i] - delta / 6.0)
+		elif inventory[i] == "burger":
+			_temps[i] = maxf(0.0, _temps[i] - delta / 9.0)
 	if Input.is_action_just_pressed("interact"):
 		_interact()
 	if Input.is_action_just_pressed("interact_alt"):

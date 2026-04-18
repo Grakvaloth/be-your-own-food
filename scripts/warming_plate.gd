@@ -13,6 +13,7 @@ func _ready() -> void:
 	_textures = {
 		"food_cooked": load("res://assets/food_cooked.svg"),
 		"burger": load("res://assets/burger.svg"),
+		"bun": load("res://assets/bun.svg"),
 	}
 	_sprite.visible = false
 
@@ -24,7 +25,7 @@ func _process(delta: float) -> void:
 func can_interact(player: CharacterBody2D) -> bool:
 	if _item != "":
 		return not player.inventory_full()
-	return player.has_item("food_cooked") or player.has_item("burger")
+	return player.has_item("food_cooked") or player.has_item("burger") or player.has_item("bun")
 
 func on_player_interact(player: CharacterBody2D) -> void:
 	if _item != "":
@@ -42,10 +43,16 @@ func on_player_interact(player: CharacterBody2D) -> void:
 		_item = "burger"
 		_temp = player.last_taken_temp
 		_update_sprite()
+	elif player.has_item("bun"):
+		player.take_item("bun")
+		_item = "bun"
+		_temp = 1.0
+		_update_sprite()
 
 func _update_sprite() -> void:
 	_sprite.texture = _textures.get(_item, null)
 	_sprite.visible = _item != ""
+	_sprite.scale = Vector2(1.05, 1.05) if _item == "burger" else Vector2(0.7, 0.7)
 	if _item in ["food_cooked", "burger"]:
 		_sprite.modulate = _temp_color(_temp)
 	else:

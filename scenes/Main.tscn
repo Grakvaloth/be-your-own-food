@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3]
+[gd_scene load_steps=14 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/Table.tscn" id="1_main1"]
 [ext_resource type="PackedScene" path="res://scenes/Stove.tscn" id="2_main1"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" path="res://scenes/Trash.tscn" id="8_main1"]
 [ext_resource type="PackedScene" path="res://scenes/CashRegister.tscn" id="9_main1"]
 [ext_resource type="PackedScene" path="res://scenes/WarmingPlate.tscn" id="10_main1"]
+[ext_resource type="PackedScene" path="res://scenes/UpgradeComputer.tscn" id="11_main1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fridge"]
 size = Vector2(64, 128)
@@ -41,19 +42,19 @@ shape = SubResource("RectangleShape2D_fridge")
 position = Vector2(208, 80)
 scale = Vector2(2, 2)
 
-[node name="Stove2" parent="." instance=ExtResource("2_main1")]
+[node name="StoveSlot1" parent="." instance=ExtResource("7_main1")]
 position = Vector2(336, 80)
 scale = Vector2(2, 2)
 
-[node name="Stove3" parent="." instance=ExtResource("2_main1")]
+[node name="StoveSlot2" parent="." instance=ExtResource("7_main1")]
 position = Vector2(464, 80)
 scale = Vector2(2, 2)
 
-[node name="Stove4" parent="." instance=ExtResource("2_main1")]
+[node name="StoveSlot3" parent="." instance=ExtResource("7_main1")]
 position = Vector2(592, 80)
 scale = Vector2(2, 2)
 
-[node name="Stove5" parent="." instance=ExtResource("2_main1")]
+[node name="StoveSlot4" parent="." instance=ExtResource("7_main1")]
 position = Vector2(720, 80)
 scale = Vector2(2, 2)
 
@@ -61,48 +62,32 @@ scale = Vector2(2, 2)
 position = Vector2(1000, 80)
 scale = Vector2(2, 2)
 
+[node name="UpgradeComputer" parent="." instance=ExtResource("11_main1")]
+position = Vector2(1800, 80)
+scale = Vector2(2, 2)
+
 [node name="WarmingPlate1" parent="." instance=ExtResource("10_main1")]
 position = Vector2(160, 320)
 scale = Vector2(2, 2)
 
-[node name="WarmingPlate2" parent="." instance=ExtResource("10_main1")]
+[node name="WarmerSlot1" parent="." instance=ExtResource("7_main1")]
 position = Vector2(288, 320)
 scale = Vector2(2, 2)
 
-[node name="WarmingPlate3" parent="." instance=ExtResource("10_main1")]
+[node name="WarmerSlot2" parent="." instance=ExtResource("7_main1")]
 position = Vector2(416, 320)
 scale = Vector2(2, 2)
 
-[node name="WarmingPlate4" parent="." instance=ExtResource("10_main1")]
+[node name="WarmerSlot3" parent="." instance=ExtResource("7_main1")]
 position = Vector2(544, 320)
 scale = Vector2(2, 2)
 
-[node name="WarmingPlate5" parent="." instance=ExtResource("10_main1")]
+[node name="WarmerSlot4" parent="." instance=ExtResource("7_main1")]
 position = Vector2(672, 320)
 scale = Vector2(2, 2)
 
-[node name="Counter1" parent="." instance=ExtResource("7_main1")]
-position = Vector2(800, 320)
-scale = Vector2(2, 2)
-
-[node name="Counter2" parent="." instance=ExtResource("7_main1")]
-position = Vector2(928, 320)
-scale = Vector2(2, 2)
-
-[node name="Counter3" parent="." instance=ExtResource("7_main1")]
-position = Vector2(1056, 320)
-scale = Vector2(2, 2)
-
-[node name="Counter4" parent="." instance=ExtResource("7_main1")]
-position = Vector2(1184, 320)
-scale = Vector2(2, 2)
-
-[node name="Counter5" parent="." instance=ExtResource("7_main1")]
-position = Vector2(1312, 320)
-scale = Vector2(2, 2)
-
 [node name="CashRegister" parent="." instance=ExtResource("9_main1")]
-position = Vector2(1440, 320)
+position = Vector2(800, 320)
 scale = Vector2(2, 2)
 
 [node name="Table1" parent="." instance=ExtResource("1_main1")]
@@ -128,3 +113,10 @@ offset_top = 20.0
 offset_right = 300.0
 offset_bottom = 60.0
 text = "Münzen: 0"
+
+[node name="UpgradeLabel" type="Label" parent="HUD"]
+offset_left = 1400.0
+offset_top = 20.0
+offset_right = 1900.0
+offset_bottom = 60.0
+text = "[E] Herd: 500  [Q] Wärmer: 1000"

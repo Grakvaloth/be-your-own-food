@@ -18,8 +18,11 @@ func _ready() -> void:
 	_sprite.visible = false
 
 func _process(delta: float) -> void:
-	if _item in ["food_cooked", "burger"]:
+	if _item == "food_cooked":
 		_temp = maxf(0.0, _temp - delta * COOL_RATE)
+		_update_sprite()
+	elif _item == "burger":
+		_temp = maxf(0.0, _temp - delta * (COOL_RATE * 2.0 / 3.0))
 		_update_sprite()
 
 func _find_combine_item(player: CharacterBody2D) -> String:
@@ -67,6 +70,7 @@ func _can_combine(a: String, b: String) -> bool:
 func _update_sprite() -> void:
 	_sprite.texture = _textures.get(_item, null)
 	_sprite.visible = _item != ""
+	_sprite.scale = Vector2(1.05, 1.05) if _item == "burger" else Vector2(0.7, 0.7)
 	if _item in ["food_cooked", "burger"]:
 		_sprite.modulate = _temp_color(_temp)
 	else:

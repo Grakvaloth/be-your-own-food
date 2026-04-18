@@ -51,7 +51,7 @@ texture = ExtResource("4_guest1")
 
 [node name="FoodSprite" type="Sprite2D" parent="."]
 position = Vector2(0, 42)
-scale = Vector2(0.9, 0.9)
+scale = Vector2(1.35, 1.35)
 texture = ExtResource("6_guest1")
 visible = false
 

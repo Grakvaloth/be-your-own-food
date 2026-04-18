@@ -4,11 +4,11 @@ const SPAWN_INTERVAL := 10.0
 const MAX_GUESTS := 6
 const POINTS_PER_GUEST := 100
 const QUEUE_POSITIONS := [
-	Vector2(1440, 440),
-	Vector2(1260, 440),
-	Vector2(1080, 440),
-	Vector2(900, 440),
-	Vector2(720, 440),
+	Vector2(800, 440),
+	Vector2(620, 440),
+	Vector2(440, 440),
+	Vector2(260, 440),
+	Vector2(80, 440),
 ]
 
 var score := 0
@@ -16,6 +16,11 @@ var _guests: Array = []
 var _queue: Array = []
 var _free_seats: Array = []
 var _spawn_timer := 3.0
+
+var _stove_upgrade_slots: Array = []
+var _warmer_upgrade_slots: Array = []
+var _stoves_purchased := 0
+var _warmers_purchased := 0
 
 func _ready() -> void:
 	_free_seats = [
@@ -26,7 +31,9 @@ func _ready() -> void:
 		$Table3/SeatPoint_Top,
 		$Table3/SeatPoint_Bottom,
 	]
-	$HUD/ScoreLabel.text = "Münzen: 0"
+	_stove_upgrade_slots = [$StoveSlot1, $StoveSlot2, $StoveSlot3, $StoveSlot4]
+	_warmer_upgrade_slots = [$WarmerSlot1, $WarmerSlot2, $WarmerSlot3, $WarmerSlot4]
+	_update_hud()
 
 func _process(delta: float) -> void:
 	var queue_full := _queue.size() >= QUEUE_POSITIONS.size()
@@ -68,11 +75,11 @@ func _advance_queue() -> void:
 
 func guest_served(guest: CharacterBody2D) -> void:
 	score += POINTS_PER_GUEST
-	$HUD/ScoreLabel.text = "Münzen: " + str(score)
 	if guest.assigned_seat != null:
 		_free_seats.append(guest.assigned_seat)
 	_guests.erase(guest)
 	guest.queue_free()
+	_update_hud()
 
 func guest_left_early(guest: CharacterBody2D) -> void:
 	if _queue.has(guest):
@@ -85,3 +92,59 @@ func guest_done(guest: CharacterBody2D) -> void:
 		_free_seats.append(guest.assigned_seat)
 	_guests.erase(guest)
 	guest.queue_free()
+
+func get_stove_upgrade_cost() -> int:
+	if _stoves_purchased >= _stove_upgrade_slots.size():
+		return -1
+	return (_stoves_purchased + 1) * 500
+
+func get_warmer_upgrade_cost() -> int:
+	if _warmers_purchased >= _warmer_upgrade_slots.size():
+		return -1
+	return (_warmers_purchased + 1) * 1000
+
+func buy_stove_upgrade() -> bool:
+	var cost := get_stove_upgrade_cost()
+	if cost < 0 or score < cost:
+		return false
+	score -= cost
+	var slot: Node = _stove_upgrade_slots[_stoves_purchased]
+	_replace_with_stove(slot)
+	_stoves_purchased += 1
+	_update_hud()
+	return true
+
+func buy_warmer_upgrade() -> bool:
+	var cost := get_warmer_upgrade_cost()
+	if cost < 0 or score < cost:
+		return false
+	score -= cost
+	var slot: Node = _warmer_upgrade_slots[_warmers_purchased]
+	_replace_with_warmer(slot)
+	_warmers_purchased += 1
+	_update_hud()
+	return true
+
+func _replace_with_stove(slot: Node) -> void:
+	var pos := slot.global_position
+	slot.queue_free()
+	var stove: Node = preload("res://scenes/Stove.tscn").instantiate()
+	stove.scale = Vector2(2, 2)
+	add_child(stove)
+	stove.global_position = pos
+
+func _replace_with_warmer(slot: Node) -> void:
+	var pos := slot.global_position
+	slot.queue_free()
+	var warmer: Node = preload("res://scenes/WarmingPlate.tscn").instantiate()
+	warmer.scale = Vector2(2, 2)
+	add_child(warmer)
+	warmer.global_position = pos
+
+func _update_hud() -> void:
+	$HUD/ScoreLabel.text = "Münzen: " + str(score)
+	var sc := get_stove_upgrade_cost()
+	var wc := get_warmer_upgrade_cost()
+	var sl := "[E] Herd: %s" % (str(sc) if sc >= 0 else "MAX")
+	var wl := "  [Q] Wärmer: %s" % (str(wc) if wc >= 0 else "MAX")
+	$HUD/UpgradeLabel.text = sl + wl

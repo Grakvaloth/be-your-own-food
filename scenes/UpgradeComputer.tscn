@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/upgrade_computer.svg" id="1_uc"]
+[ext_resource type="Script" path="res://scripts/upgrade_computer.gd" id="2_uc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uc"]
+size = Vector2(64, 64)
+
+[node name="UpgradeComputer" type="StaticBody2D"]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("2_uc")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_uc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_uc")
