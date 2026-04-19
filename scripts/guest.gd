@@ -56,8 +56,9 @@ func _physics_process(delta: float) -> void:
 		State.DEAD:
 			velocity = Vector2.ZERO
 			move_and_slide()
-			_freshness -= delta
-			_update_freshness_bar()
+			if _freshness > 0:
+				_freshness -= delta
+				_update_freshness_bar()
 
 func take_damage(amount: int) -> void:
 	if state == State.DEAD:
@@ -74,15 +75,16 @@ func _die() -> void:
 		get_parent().guest_left_early(self)
 	$OrderBubble.visible = false
 	$FoodSprite.visible = false
+	$TimerBar.visible = false
 	$Sprite2D.modulate = Color(0.4, 0.4, 0.4)
-	$TimerBar.visible = true
-	$TimerBar.update_bar(FRESHNESS_DURATION, Color(0.3, 0.8, 0.3), FRESHNESS_DURATION)
+	$FreshnessBar.visible = true
+	$FreshnessBar.update_bar(FRESHNESS_DURATION, Color(0.3, 0.8, 0.3), FRESHNESS_DURATION)
 	state = State.DEAD
 
 func _update_freshness_bar() -> void:
 	var ratio := clampf(_freshness / FRESHNESS_DURATION, 0.0, 1.0)
 	var col := Color(0.8, 0.2, 0.0).lerp(Color(0.3, 0.8, 0.3), ratio)
-	$TimerBar.update_bar(_freshness, col, FRESHNESS_DURATION)
+	$FreshnessBar.update_bar(_freshness, col, FRESHNESS_DURATION)
 	if _freshness <= 0:
 		$Sprite2D.modulate = Color(0.5, 0.25, 0.0)
 

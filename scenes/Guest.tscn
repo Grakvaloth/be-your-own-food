@@ -59,3 +59,8 @@ visible = false
 position = Vector2(0, 50)
 script = ExtResource("7_guest1")
 visible = false
+
+[node name="FreshnessBar" type="Node2D" parent="."]
+position = Vector2(0, 62)
+script = ExtResource("7_guest1")
+visible = false

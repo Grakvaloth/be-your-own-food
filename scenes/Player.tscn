@@ -40,21 +40,6 @@ disabled = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
-[node name="InteractHint" type="Label" parent="."]
-position = Vector2(-10, -60)
-text = "[E]"
-visible = false
-
-[node name="AltHint" type="Label" parent="."]
-position = Vector2(-10, -80)
-text = "[Q]"
-visible = false
-
-[node name="OpenHint" type="Label" parent="."]
-position = Vector2(-10, -100)
-text = "[F]"
-visible = false
-
 [node name="InventoryLayer" type="CanvasLayer" parent="."]
 
 [node name="Slot0" type="Panel" parent="InventoryLayer"]
@@ -108,6 +93,33 @@ offset_top = 8.0
 offset_right = 72.0
 offset_bottom = 72.0
 stretch_mode = 5
+
+[node name="InteractHint" type="Label" parent="InventoryLayer"]
+offset_left = 920.0
+offset_top = 930.0
+offset_right = 1000.0
+offset_bottom = 975.0
+text = "[E]"
+theme_override_font_sizes/font_size = 32
+visible = false
+
+[node name="AltHint" type="Label" parent="InventoryLayer"]
+offset_left = 960.0
+offset_top = 930.0
+offset_right = 1040.0
+offset_bottom = 975.0
+text = "[Q]"
+theme_override_font_sizes/font_size = 32
+visible = false
+
+[node name="OpenHint" type="Label" parent="InventoryLayer"]
+offset_left = 920.0
+offset_top = 930.0
+offset_right = 1000.0
+offset_bottom = 975.0
+text = "[F]"
+theme_override_font_sizes/font_size = 32
+visible = false
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_anim_finished"]
 [connection signal="frame_changed" from="AnimatedSprite2D" to="." method="_on_frame_changed"]

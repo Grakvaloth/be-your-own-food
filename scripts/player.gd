@@ -19,9 +19,13 @@ var last_taken_temp: float = 1.0
 
 var _facing := "south"
 var _attacking := false
+var input_blocked: bool = false
 
 @onready var _anim: AnimatedSprite2D = $AnimatedSprite2D
 @onready var _attack_shape: CollisionShape2D = $AttackArea/CollisionShape2D
+@onready var _hint_e: Label = $InventoryLayer/InteractHint
+@onready var _hint_q: Label = $InventoryLayer/AltHint
+@onready var _hint_f: Label = $InventoryLayer/OpenHint
 
 @onready var _slots: Array[TextureRect] = [
 	$InventoryLayer/Slot0/Icon,
@@ -50,6 +54,17 @@ func _ready() -> void:
 	_update_ui()
 
 func _physics_process(delta: float) -> void:
+	if input_blocked:
+		velocity = Vector2.ZERO
+		move_and_slide()
+		_hint_e.visible = false
+		_hint_q.visible = false
+		_hint_f.visible = false
+		if Input.is_action_just_pressed("open_fridge"):
+			_interact_open()
+		_update_ui()
+		return
+
 	var dir := Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	var spd := SPEED * (SPEED_BOOST if Input.is_physical_key_pressed(KEY_SHIFT) else 1.0)
 
@@ -257,6 +272,6 @@ func _update_hint() -> void:
 				found_q = true
 			if not found_f and body.has_method("can_open") and body.can_open(self):
 				found_f = true
-	$InteractHint.visible = found_e
-	$AltHint.visible = found_q
-	$OpenHint.visible = found_f
+	_hint_e.visible = found_e
+	_hint_q.visible = found_q
+	_hint_f.visible = found_f

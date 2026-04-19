@@ -11,11 +11,11 @@
 [ext_resource type="PackedScene" path="res://scenes/CashRegister.tscn" id="9_main1"]
 [ext_resource type="PackedScene" path="res://scenes/WarmingPlate.tscn" id="10_main1"]
 [ext_resource type="PackedScene" path="res://scenes/UpgradeComputer.tscn" id="11_main1"]
+[ext_resource type="PackedScene" path="res://scenes/PauseMenu.tscn" id="17_main1"]
+[ext_resource type="PackedScene" path="res://scenes/ComputerMenu.tscn" id="18_main1"]
 [ext_resource type="PackedScene" path="res://scenes/StorageTable.tscn" id="12_main1"]
 [ext_resource type="PackedScene" path="res://scenes/MeatGrinder.tscn" id="13_main1"]
 [ext_resource type="PackedScene" path="res://scenes/TrashChute.tscn" id="14_main1"]
-[ext_resource type="Texture2D" path="res://assets/food_raw.svg" id="15_main1"]
-[ext_resource type="Texture2D" path="res://assets/bun.svg" id="16_main1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fridge"]
 size = Vector2(64, 128)
@@ -173,46 +173,7 @@ texture = ExtResource("5_main1")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Fridge"]
 shape = SubResource("RectangleShape2D_fridge")
 
-[node name="FridgeMenu" type="CanvasLayer" parent="Fridge"]
-
-[node name="Panel" type="Panel" parent="Fridge/FridgeMenu"]
-offset_left = 60.0
-offset_top = 100.0
-offset_right = 340.0
-offset_bottom = 270.0
-visible = false
-
-[node name="MeatLabel" type="Label" parent="Fridge/FridgeMenu"]
-offset_left = 75.0
-offset_top = 120.0
-offset_right = 320.0
-offset_bottom = 165.0
-text = "[E]  ×5"
-theme_override_font_sizes/font_size = 20
-
-[node name="BunLabel" type="Label" parent="Fridge/FridgeMenu"]
-offset_left = 75.0
-offset_top = 185.0
-offset_right = 320.0
-offset_bottom = 230.0
-text = "[Q]  ×10"
-theme_override_font_sizes/font_size = 20
-
-[node name="MeatIcon" type="TextureRect" parent="Fridge/FridgeMenu"]
-offset_left = 70.0
-offset_top = 118.0
-offset_right = 110.0
-offset_bottom = 158.0
-texture = ExtResource("15_main1")
-stretch_mode = 5
-
-[node name="BunIcon" type="TextureRect" parent="Fridge/FridgeMenu"]
-offset_left = 70.0
-offset_top = 183.0
-offset_right = 110.0
-offset_bottom = 223.0
-texture = ExtResource("16_main1")
-stretch_mode = 5
+[node name="ComputerMenu" parent="Fridge" instance=ExtResource("18_main1")]
 
 [node name="Stove1" parent="." instance=ExtResource("2_main1")]
 position = Vector2(276, 160)
@@ -305,3 +266,5 @@ offset_top = 20.0
 offset_right = 300.0
 offset_bottom = 60.0
 text = "Münzen: 0"
+
+[node name="PauseMenu" parent="." instance=ExtResource("17_main1")]

@@ -2,47 +2,64 @@ extends StaticBody2D
 
 var meat_count: int = 5
 var bun_count: int = 10
-var _open := false
-
-@onready var _panel: Panel = $FridgeMenu/Panel
-@onready var _meat_label: Label = $FridgeMenu/MeatLabel
-@onready var _bun_label: Label = $FridgeMenu/BunLabel
+var _menu_open := false
+var _player: CharacterBody2D = null
 
 func _ready() -> void:
-	_panel.visible = false
-	_update_labels()
-
-func _update_labels() -> void:
-	if _meat_label:
-		_meat_label.text = "[E]  ×" + str(meat_count)
-	if _bun_label:
-		_bun_label.text = "[Q]  ×" + str(bun_count)
+	$ComputerMenu.item_selected.connect(_on_menu_item_selected)
 
 func can_open(_player: CharacterBody2D) -> bool:
 	return true
 
-func on_player_open(_player: CharacterBody2D) -> void:
-	_open = not _open
-	_panel.visible = _open
+func on_player_open(player: CharacterBody2D) -> void:
+	_player = player
+	if _menu_open:
+		_close_menu()
+	else:
+		_open_menu()
 
-func can_interact(player: CharacterBody2D) -> bool:
-	return _open and meat_count > 0 and not player.inventory_full()
+func _open_menu() -> void:
+	_menu_open = true
+	if _player:
+		_player.input_blocked = true
+	var full: bool = _player != null and _player.inventory_full()
+	var meat_items: Array = [
+		{"label": "Entnehmen  ×" + str(meat_count), "cost": 0, "available": meat_count > 0 and not full}
+	]
+	var bun_items: Array = [
+		{"label": "Entnehmen  ×" + str(bun_count), "cost": 0, "available": bun_count > 0 and not full}
+	]
+	$ComputerMenu.open([meat_items, bun_items], ["Fleisch", "Brot"])
 
-func on_player_interact(player: CharacterBody2D) -> void:
-	if _open and meat_count > 0 and not player.inventory_full():
-		player.pick_up("food_raw")
+func _close_menu() -> void:
+	_menu_open = false
+	$ComputerMenu.close()
+	if _player:
+		_player.input_blocked = false
+		_player = null
+
+func _process(_delta: float) -> void:
+	if not _menu_open:
+		return
+	for action in ["menu_left", "menu_right", "menu_up", "menu_down"]:
+		if Input.is_action_just_pressed(action):
+			$ComputerMenu.handle_input(action)
+	if Input.is_action_just_pressed("interact"):
+		$ComputerMenu.handle_input("menu_confirm")
+	if Input.is_action_just_pressed("open_fridge") and _player != null:
+		_close_menu()
+
+func _on_menu_item_selected(tab: int, _index: int) -> void:
+	if _player == null:
+		return
+	if tab == 0 and meat_count > 0 and not _player.inventory_full():
+		_player.pick_up("food_raw")
 		meat_count -= 1
-		_update_labels()
-		_open = false
-		_panel.visible = false
-
-func can_interact_alt(player: CharacterBody2D) -> bool:
-	return _open and bun_count > 0 and not player.inventory_full()
-
-func on_player_interact_alt(player: CharacterBody2D) -> void:
-	if _open and bun_count > 0 and not player.inventory_full():
-		player.pick_up("bun")
+	elif tab == 1 and bun_count > 0 and not _player.inventory_full():
+		_player.pick_up("bun")
 		bun_count -= 1
-		_update_labels()
-		_open = false
-		_panel.visible = false
+	_open_menu()
+
+func _update_labels() -> void:
+	if _menu_open:
+		_open_menu()

@@ -1,6 +1,7 @@
 extends StaticBody2D
 
 var _menu_open := false
+var _player: CharacterBody2D = null
 
 func _ready() -> void:
 	$ComputerMenu.item_selected.connect(_on_menu_item_selected)
@@ -8,7 +9,8 @@ func _ready() -> void:
 func can_open(_player: CharacterBody2D) -> bool:
 	return true
 
-func on_player_open(_player: CharacterBody2D) -> void:
+func on_player_open(player: CharacterBody2D) -> void:
+	_player = player
 	if _menu_open:
 		_close_menu()
 	else:
@@ -16,39 +18,36 @@ func on_player_open(_player: CharacterBody2D) -> void:
 
 func _open_menu() -> void:
 	_menu_open = true
+	if _player:
+		_player.input_blocked = true
 	var main := get_parent()
-	var sc := main.get_stove_upgrade_cost()
-	var wc := main.get_warmer_upgrade_cost()
+	var sc: int = main.get_stove_upgrade_cost()
+	var wc: int = main.get_warmer_upgrade_cost()
+	var coins: int = main.score
 
-	var upgrades: Array = []
-	for i in 4:
-		var cost: int = (i + 1) * 500
-		upgrades.append({
-			"label": "Herd-Slot " + str(i + 2) + "  –  " + str(cost) + " Münzen",
-			"cost": cost,
-			"available": i < 4 - main._stoves_purchased and main.score >= cost and i == (4 - main._stove_upgrade_slots.size() + main._stoves_purchased) - (4 - main._stove_upgrade_slots.size()),
-		})
-	# Simpler: just show next stove + next warmer upgrades
 	var upgrade_items: Array = []
 	if sc >= 0:
-		upgrade_items.append({"label": "Herd freischalten  –  " + str(sc), "cost": sc, "available": main.score >= sc})
+		upgrade_items.append({"label": "Herd freischalten  –  " + str(sc), "cost": sc, "available": coins >= sc})
 	else:
 		upgrade_items.append({"label": "Herd: MAX", "cost": 0, "available": false})
 	if wc >= 0:
-		upgrade_items.append({"label": "Wärmer freischalten  –  " + str(wc), "cost": wc, "available": main.score >= wc})
+		upgrade_items.append({"label": "Wärmer freischalten  –  " + str(wc), "cost": wc, "available": coins >= wc})
 	else:
 		upgrade_items.append({"label": "Wärmer: MAX", "cost": 0, "available": false})
 
 	var shop_items: Array = [
-		{"label": "1 Brötchen  –  10 Münzen", "cost": 10, "available": main.score >= 10},
-		{"label": "10 Brötchen  –  80 Münzen", "cost": 80, "available": main.score >= 80},
+		{"label": "1 Brötchen  –  10 Münzen", "cost": 10, "available": coins >= 10},
+		{"label": "10 Brötchen  –  80 Münzen", "cost": 80, "available": coins >= 80},
 	]
 
-	$ComputerMenu.open([upgrade_items, shop_items])
+	$ComputerMenu.open([upgrade_items, shop_items], ["Upgrades", "Einkauf"])
 
 func _close_menu() -> void:
 	_menu_open = false
 	$ComputerMenu.close()
+	if _player:
+		_player.input_blocked = false
+		_player = null
 
 func _process(_delta: float) -> void:
 	if not _menu_open:
@@ -58,8 +57,6 @@ func _process(_delta: float) -> void:
 			$ComputerMenu.handle_input(action)
 	if Input.is_action_just_pressed("interact"):
 		$ComputerMenu.handle_input("menu_confirm")
-	if Input.is_action_just_pressed("open_fridge"):
-		_close_menu()
 
 func _on_menu_item_selected(tab: int, index: int) -> void:
 	var main := get_parent()
@@ -68,14 +65,15 @@ func _on_menu_item_selected(tab: int, index: int) -> void:
 			main.buy_stove_upgrade()
 		elif index == 1:
 			main.buy_warmer_upgrade()
-		_open_menu()  # refresh
+		_open_menu()
 	elif tab == 1:
-		if index == 0 and main.score >= 10:
+		var coins: int = main.score
+		if index == 0 and coins >= 10:
 			main.score -= 10
 			main.add_fridge_buns(1)
 			main._update_hud()
-		elif index == 1 and main.score >= 80:
+		elif index == 1 and coins >= 80:
 			main.score -= 80
 			main.add_fridge_buns(10)
 			main._update_hud()
-		_open_menu()  # refresh
+		_open_menu()
