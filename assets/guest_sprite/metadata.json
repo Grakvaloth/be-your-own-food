@@ -1,0 +1,61 @@
+{
+  "character": {
+    "id": "cda781de-2721-4cae-b2e8-00a25fca32f3",
+    "name": "Small cute demon monster restaurant guest, cartoon comic style, tiny horns, big hungry eyes, sitting pose, 2D game sprite, transparent background, 64x64 pixels, multiple animation frames: idle, walk, sit",
+    "prompt": "Small cute demon monster restaurant guest, cartoon comic style, tiny horns, big hungry eyes, sitting pose, 2D game sprite, transparent background, 64x64 pixels, multiple animation frames: idle, walk, sit",
+    "size": {
+      "width": 92,
+      "height": 92
+    },
+    "template_id": "mannequin",
+    "directions": 4,
+    "view": "high top-down",
+    "created_at": "2026-04-18T11:54:58.418096+00:00"
+  },
+  "frames": {
+    "rotations": {
+      "south": "rotations/south.png",
+      "west": "rotations/west.png",
+      "east": "rotations/east.png",
+      "north": "rotations/north.png"
+    },
+    "animations": {
+      "animation-04527d1d": {
+        "east": [
+          "animations/animation-04527d1d/east/frame_000.png",
+          "animations/animation-04527d1d/east/frame_001.png",
+          "animations/animation-04527d1d/east/frame_002.png",
+          "animations/animation-04527d1d/east/frame_003.png",
+          "animations/animation-04527d1d/east/frame_004.png",
+          "animations/animation-04527d1d/east/frame_005.png"
+        ],
+        "west": [
+          "animations/animation-04527d1d/west/frame_000.png",
+          "animations/animation-04527d1d/west/frame_001.png",
+          "animations/animation-04527d1d/west/frame_002.png",
+          "animations/animation-04527d1d/west/frame_003.png",
+          "animations/animation-04527d1d/west/frame_004.png",
+          "animations/animation-04527d1d/west/frame_005.png"
+        ],
+        "north": [
+          "animations/animation-04527d1d/north/frame_000.png",
+          "animations/animation-04527d1d/north/frame_001.png",
+          "animations/animation-04527d1d/north/frame_002.png",
+          "animations/animation-04527d1d/north/frame_003.png",
+          "animations/animation-04527d1d/north/frame_004.png",
+          "animations/animation-04527d1d/north/frame_005.png"
+        ],
+        "south": [
+          "animations/animation-04527d1d/south/frame_000.png",
+          "animations/animation-04527d1d/south/frame_001.png",
+          "animations/animation-04527d1d/south/frame_002.png",
+          "animations/animation-04527d1d/south/frame_003.png",
+          "animations/animation-04527d1d/south/frame_004.png",
+          "animations/animation-04527d1d/south/frame_005.png"
+        ]
+      }
+    }
+  },
+  "export_version": "2.0",
+  "export_date": "2026-04-18T12:05:58.624287"
+}

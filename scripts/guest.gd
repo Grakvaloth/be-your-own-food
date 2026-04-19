@@ -20,6 +20,9 @@ var _wait_timer := 0.0
 var _freshness := FRESHNESS_DURATION
 var _served := false
 var _at_aisle := false
+var _facing := "south"
+
+@onready var _anim: AnimatedSprite2D = $AnimatedSprite2D
 
 func _ready() -> void:
 	$OrderBubble.visible = false
@@ -33,6 +36,7 @@ func _physics_process(delta: float) -> void:
 		State.WAITING:
 			velocity = Vector2.ZERO
 			move_and_slide()
+			_update_animation(false)
 			if queue_index == 0:
 				_wait_timer -= delta
 				_update_timer_bar()
@@ -41,6 +45,7 @@ func _physics_process(delta: float) -> void:
 		State.EATING:
 			velocity = Vector2.ZERO
 			move_and_slide()
+			_update_animation(false)
 			_wait_timer -= delta
 			_update_timer_bar()
 			if _wait_timer <= 0.0:
@@ -48,6 +53,7 @@ func _physics_process(delta: float) -> void:
 		State.DINING:
 			velocity = Vector2.ZERO
 			move_and_slide()
+			_update_animation(false)
 			_eat_timer -= delta
 			if _eat_timer <= 0.0:
 				$FoodSprite.visible = false
@@ -59,6 +65,11 @@ func _physics_process(delta: float) -> void:
 			if _freshness > 0:
 				_freshness -= delta
 				_update_freshness_bar()
+
+func _update_animation(moving: bool) -> void:
+	if state == State.DEAD:
+		return
+	_anim.play(("walk_" if moving else "idle_") + _facing)
 
 func take_damage(amount: int) -> void:
 	if state == State.DEAD:
@@ -76,7 +87,9 @@ func _die() -> void:
 	$OrderBubble.visible = false
 	$FoodSprite.visible = false
 	$TimerBar.visible = false
-	$Sprite2D.modulate = Color(0.4, 0.4, 0.4)
+	_anim.play("idle_" + _facing)
+	_anim.rotation = PI / 2.0
+	_anim.modulate = Color(0.4, 0.4, 0.4)
 	$FreshnessBar.visible = true
 	$FreshnessBar.update_bar(FRESHNESS_DURATION, Color(0.3, 0.8, 0.3), FRESHNESS_DURATION)
 	state = State.DEAD
@@ -86,7 +99,7 @@ func _update_freshness_bar() -> void:
 	var col := Color(0.8, 0.2, 0.0).lerp(Color(0.3, 0.8, 0.3), ratio)
 	$FreshnessBar.update_bar(_freshness, col, FRESHNESS_DURATION)
 	if _freshness <= 0:
-		$Sprite2D.modulate = Color(0.5, 0.25, 0.0)
+		_anim.modulate = Color(0.5, 0.25, 0.0)
 
 func can_interact(player: CharacterBody2D) -> bool:
 	if state == State.DEAD:
@@ -129,13 +142,21 @@ func seat_assigned(seat: Node) -> void:
 	state = State.WALKING_TO_TABLE
 
 func _step_toward(pos: Vector2) -> void:
+	var dir := (pos - global_position).normalized()
+	if abs(dir.x) >= abs(dir.y):
+		_facing = "east" if dir.x > 0 else "west"
+	else:
+		_facing = "south" if dir.y > 0 else "north"
+
 	if global_position.distance_to(pos) < 16.0:
 		velocity = Vector2.ZERO
 		move_and_slide()
+		_update_animation(false)
 		_on_reached()
 		return
-	velocity = (pos - global_position).normalized() * SPEED
+	velocity = dir * SPEED
 	move_and_slide()
+	_update_animation(true)
 
 func _on_reached() -> void:
 	match state:

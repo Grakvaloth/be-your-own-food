@@ -6,10 +6,10 @@ const INVENTORY_SIZE := 4
 const TEMP_THRESHOLD := 1.0 / 3.0
 
 const ATTACK_OFFSETS := {
-	"south": Vector2(0, 70),
-	"north": Vector2(0, -70),
-	"east": Vector2(70, 0),
-	"west": Vector2(-70, 0),
+	"south": Vector2(0, 140),
+	"north": Vector2(0, -140),
+	"east": Vector2(140, 0),
+	"west": Vector2(-140, 0),
 }
 
 var inventory: Array[String] = ["", "", "", ""]

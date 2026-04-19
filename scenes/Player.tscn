@@ -4,13 +4,13 @@
 [ext_resource type="Script" path="res://scripts/player.gd" id="2_play1"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_play1"]
-radius = 28.0
+radius = 56.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_play2"]
-radius = 60.0
+radius = 120.0
 
 [sub_resource type="RectangleShape2D" id="RectShape_attack"]
-size = Vector2(60, 60)
+size = Vector2(120, 120)
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 1
@@ -18,6 +18,7 @@ collision_mask = 6
 script = ExtResource("2_play1")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(2, 2)
 sprite_frames = ExtResource("1_play1")
 animation = &"idle_south"
 autoplay = "idle_south"

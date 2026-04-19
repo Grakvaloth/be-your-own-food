@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3]
 
-[ext_resource type="Texture2D" path="res://assets/guest.svg" id="1_guest1"]
+[ext_resource type="SpriteFrames" path="res://assets/guest_sprite/guest_frames.tres" id="1_guest1"]
 [ext_resource type="Script" path="res://scripts/guest.gd" id="2_guest1"]
 [ext_resource type="Texture2D" path="res://assets/order_bubble.svg" id="3_guest1"]
 [ext_resource type="Texture2D" path="res://assets/bun.svg" id="4_guest1"]
@@ -9,15 +9,18 @@
 [ext_resource type="Script" path="res://scripts/cook_bar.gd" id="7_guest1"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_guest1"]
-radius = 28.0
+radius = 56.0
 
 [node name="Guest" type="CharacterBody2D"]
 collision_layer = 4
 collision_mask = 2
 script = ExtResource("2_guest1")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_guest1")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(2, 2)
+sprite_frames = ExtResource("1_guest1")
+animation = &"idle_south"
+autoplay = "idle_south"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_guest1")
@@ -28,7 +31,7 @@ path_desired_distance = 4.0
 target_desired_distance = 24.0
 
 [node name="OrderBubble" type="Node2D" parent="."]
-position = Vector2(0, -64)
+position = Vector2(0, -128)
 visible = false
 
 [node name="Bubble" type="Sprite2D" parent="OrderBubble"]
@@ -56,11 +59,11 @@ texture = ExtResource("6_guest1")
 visible = false
 
 [node name="TimerBar" type="Node2D" parent="."]
-position = Vector2(0, 50)
+position = Vector2(0, 70)
 script = ExtResource("7_guest1")
 visible = false
 
 [node name="FreshnessBar" type="Node2D" parent="."]
-position = Vector2(0, 62)
+position = Vector2(0, 86)
 script = ExtResource("7_guest1")
 visible = false
