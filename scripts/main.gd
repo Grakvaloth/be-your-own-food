@@ -98,8 +98,14 @@ func return_seat(seat: Node) -> void:
 		_free_seats.append(seat)
 
 func add_fridge_meat(amount: int) -> void:
-	$Fridge.meat_count += amount
-	$Fridge._update_labels()
+	var fridge := $Fridge
+	fridge.meat_count += amount
+	fridge._update_labels()
+
+func add_fridge_buns(amount: int) -> void:
+	var fridge := $Fridge
+	fridge.bun_count += amount
+	fridge._update_labels()
 
 func get_stove_upgrade_cost() -> int:
 	if _stoves_purchased >= _stove_upgrade_slots.size():

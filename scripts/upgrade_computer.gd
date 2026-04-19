@@ -72,12 +72,10 @@ func _on_menu_item_selected(tab: int, index: int) -> void:
 	elif tab == 1:
 		if index == 0 and main.score >= 10:
 			main.score -= 10
-			main.$Fridge.bun_count += 1
-			main.$Fridge._update_labels()
+			main.add_fridge_buns(1)
 			main._update_hud()
 		elif index == 1 and main.score >= 80:
 			main.score -= 80
-			main.$Fridge.bun_count += 10
-			main.$Fridge._update_labels()
+			main.add_fridge_buns(10)
 			main._update_hud()
 		_open_menu()  # refresh
