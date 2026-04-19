@@ -1,6 +1,6 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=7 format=3]
 
-[ext_resource type="Texture2D" path="res://assets/player.svg" id="1_play1"]
+[ext_resource type="SpriteFrames" path="res://assets/chef/chef_frames.tres" id="1_play1"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="2_play1"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_play1"]
@@ -9,13 +9,18 @@ radius = 28.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_play2"]
 radius = 60.0
 
+[sub_resource type="RectangleShape2D" id="RectShape_attack"]
+size = Vector2(60, 60)
+
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 1
 collision_mask = 6
 script = ExtResource("2_play1")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_play1")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("1_play1")
+animation = &"idle_south"
+autoplay = "idle_south"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_play1")
@@ -25,6 +30,13 @@ collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractArea"]
 shape = SubResource("CircleShape2D_play2")
+
+[node name="AttackArea" type="Area2D" parent="."]
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
+shape = SubResource("RectShape_attack")
+disabled = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
@@ -96,3 +108,7 @@ offset_top = 8.0
 offset_right = 72.0
 offset_bottom = 72.0
 stretch_mode = 5
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_anim_finished"]
+[connection signal="frame_changed" from="AnimatedSprite2D" to="." method="_on_frame_changed"]
+[connection signal="body_entered" from="AttackArea" to="." method="_on_attack_body_entered"]

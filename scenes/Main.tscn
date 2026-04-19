@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3]
+[gd_scene load_steps=30 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/Table.tscn" id="1_main1"]
 [ext_resource type="PackedScene" path="res://scenes/Stove.tscn" id="2_main1"]
@@ -11,6 +11,11 @@
 [ext_resource type="PackedScene" path="res://scenes/CashRegister.tscn" id="9_main1"]
 [ext_resource type="PackedScene" path="res://scenes/WarmingPlate.tscn" id="10_main1"]
 [ext_resource type="PackedScene" path="res://scenes/UpgradeComputer.tscn" id="11_main1"]
+[ext_resource type="PackedScene" path="res://scenes/StorageTable.tscn" id="12_main1"]
+[ext_resource type="PackedScene" path="res://scenes/MeatGrinder.tscn" id="13_main1"]
+[ext_resource type="PackedScene" path="res://scenes/TrashChute.tscn" id="14_main1"]
+[ext_resource type="Texture2D" path="res://assets/food_raw.svg" id="15_main1"]
+[ext_resource type="Texture2D" path="res://assets/bun.svg" id="16_main1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fridge"]
 size = Vector2(64, 128)
@@ -19,8 +24,11 @@ size = Vector2(64, 128)
 vertices = PackedVector2Array(-200, 700, 1890, 700, 1890, 1790, -200, 1790)
 polygons = [PackedInt32Array(0, 1, 2, 3)]
 
-[sub_resource type="RectangleShape2D" id="RectShape_WallTop"]
-size = Vector2(1850, 24)
+[sub_resource type="RectangleShape2D" id="RectShape_WallTopLeft"]
+size = Vector2(1100, 24)
+
+[sub_resource type="RectangleShape2D" id="RectShape_WallTopRight"]
+size = Vector2(550, 24)
 
 [sub_resource type="RectangleShape2D" id="RectShape_WallBottom"]
 size = Vector2(1850, 24)
@@ -34,6 +42,15 @@ size = Vector2(24, 870)
 [sub_resource type="RectangleShape2D" id="RectShape_WallRight"]
 size = Vector2(24, 1750)
 
+[sub_resource type="RectangleShape2D" id="RectShape_BackRoomWest"]
+size = Vector2(24, 600)
+
+[sub_resource type="RectangleShape2D" id="RectShape_BackRoomNorth"]
+size = Vector2(950, 24)
+
+[sub_resource type="RectangleShape2D" id="RectShape_BackRoomEast"]
+size = Vector2(24, 600)
+
 [node name="Main" type="Node2D"]
 script = ExtResource("4_main1")
 
@@ -41,25 +58,51 @@ script = ExtResource("4_main1")
 polygon = PackedVector2Array(50, 50, 1900, 50, 1900, 1800, 50, 1800)
 color = Color(0.82, 0.76, 0.65, 1)
 
+[node name="BackRoomFloor" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(950, -550, 1900, -550, 1900, 50, 950, 50)
+color = Color(0.7, 0.65, 0.55, 1)
+
 [node name="Door" type="Polygon2D" parent="."]
 polygon = PackedVector2Array(10, 825, 60, 825, 60, 935, 10, 935)
 color = Color(0.55, 0.42, 0.18, 1)
 
-[node name="WallLine" type="Line2D" parent="."]
-points = PackedVector2Array(50, 830, 50, 50, 1900, 50, 1900, 1800, 50, 1800, 50, 930)
+[node name="BackRoomDoor" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(1150, 40, 1350, 40, 1350, 60, 1150, 60)
+color = Color(0.55, 0.42, 0.18, 1)
+
+[node name="WallLineA" type="Line2D" parent="."]
+points = PackedVector2Array(50, 830, 50, 50, 1150, 50)
+width = 24.0
+default_color = Color(0.3, 0.22, 0.12, 1)
+
+[node name="WallLineB" type="Line2D" parent="."]
+points = PackedVector2Array(1350, 50, 1900, 50, 1900, 1800, 50, 1800, 50, 930)
+width = 24.0
+default_color = Color(0.3, 0.22, 0.12, 1)
+
+[node name="WallLineBackRoom" type="Line2D" parent="."]
+points = PackedVector2Array(950, 50, 950, -550, 1900, -550, 1900, 50)
 width = 24.0
 default_color = Color(0.3, 0.22, 0.12, 1)
 
 [node name="NavRegion" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_main1")
 
-[node name="WallTop" type="StaticBody2D" parent="."]
-position = Vector2(975, 50)
+[node name="WallTopLeft" type="StaticBody2D" parent="."]
+position = Vector2(600, 50)
 collision_layer = 4
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WallTop"]
-shape = SubResource("RectShape_WallTop")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallTopLeft"]
+shape = SubResource("RectShape_WallTopLeft")
+
+[node name="WallTopRight" type="StaticBody2D" parent="."]
+position = Vector2(1625, 50)
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallTopRight"]
+shape = SubResource("RectShape_WallTopRight")
 
 [node name="WallBottom" type="StaticBody2D" parent="."]
 position = Vector2(975, 1800)
@@ -93,6 +136,30 @@ collision_mask = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WallRight"]
 shape = SubResource("RectShape_WallRight")
 
+[node name="BackRoomWestWall" type="StaticBody2D" parent="."]
+position = Vector2(950, -250)
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BackRoomWestWall"]
+shape = SubResource("RectShape_BackRoomWest")
+
+[node name="BackRoomNorthWall" type="StaticBody2D" parent="."]
+position = Vector2(1425, -550)
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BackRoomNorthWall"]
+shape = SubResource("RectShape_BackRoomNorth")
+
+[node name="BackRoomEastWall" type="StaticBody2D" parent="."]
+position = Vector2(1900, -250)
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BackRoomEastWall"]
+shape = SubResource("RectShape_BackRoomEast")
+
 [node name="Fridge" type="StaticBody2D" parent="."]
 position = Vector2(160, 288)
 scale = Vector2(1.8, 1.8)
@@ -105,6 +172,47 @@ texture = ExtResource("5_main1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Fridge"]
 shape = SubResource("RectangleShape2D_fridge")
+
+[node name="FridgeMenu" type="CanvasLayer" parent="Fridge"]
+
+[node name="Panel" type="Panel" parent="Fridge/FridgeMenu"]
+offset_left = 60.0
+offset_top = 100.0
+offset_right = 340.0
+offset_bottom = 270.0
+visible = false
+
+[node name="MeatLabel" type="Label" parent="Fridge/FridgeMenu"]
+offset_left = 75.0
+offset_top = 120.0
+offset_right = 320.0
+offset_bottom = 165.0
+text = "[E]  ×5"
+theme_override_font_sizes/font_size = 20
+
+[node name="BunLabel" type="Label" parent="Fridge/FridgeMenu"]
+offset_left = 75.0
+offset_top = 185.0
+offset_right = 320.0
+offset_bottom = 230.0
+text = "[Q]  ×10"
+theme_override_font_sizes/font_size = 20
+
+[node name="MeatIcon" type="TextureRect" parent="Fridge/FridgeMenu"]
+offset_left = 70.0
+offset_top = 118.0
+offset_right = 110.0
+offset_bottom = 158.0
+texture = ExtResource("15_main1")
+stretch_mode = 5
+
+[node name="BunIcon" type="TextureRect" parent="Fridge/FridgeMenu"]
+offset_left = 70.0
+offset_top = 183.0
+offset_right = 110.0
+offset_bottom = 223.0
+texture = ExtResource("16_main1")
+stretch_mode = 5
 
 [node name="Stove1" parent="." instance=ExtResource("2_main1")]
 position = Vector2(276, 160)
@@ -158,6 +266,22 @@ scale = Vector2(1.8, 1.8)
 position = Vector2(900, 640)
 scale = Vector2(1.8, 1.8)
 
+[node name="StorageTable1" parent="." instance=ExtResource("12_main1")]
+position = Vector2(1250, -200)
+scale = Vector2(1.8, 1.8)
+
+[node name="StorageTable2" parent="." instance=ExtResource("12_main1")]
+position = Vector2(1550, -200)
+scale = Vector2(1.8, 1.8)
+
+[node name="MeatGrinder1" parent="." instance=ExtResource("13_main1")]
+position = Vector2(1100, -380)
+scale = Vector2(1.8, 1.8)
+
+[node name="TrashChute1" parent="." instance=ExtResource("14_main1")]
+position = Vector2(1770, -380)
+scale = Vector2(1.8, 1.8)
+
 [node name="Table1" parent="." instance=ExtResource("1_main1")]
 position = Vector2(400, 1500)
 scale = Vector2(1.8, 1.8)
@@ -181,10 +305,3 @@ offset_top = 20.0
 offset_right = 300.0
 offset_bottom = 60.0
 text = "Münzen: 0"
-
-[node name="UpgradeLabel" type="Label" parent="HUD"]
-offset_left = 1400.0
-offset_top = 20.0
-offset_right = 1900.0
-offset_bottom = 60.0
-text = "[E] Herd: 500  [Q] Wärmer: 1000"

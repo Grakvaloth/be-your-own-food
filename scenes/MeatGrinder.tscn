@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/meat_grinder.svg" id="1_mg"]
+[ext_resource type="Script" path="res://scripts/meat_grinder.gd" id="2_mg"]
+[ext_resource type="Script" path="res://scripts/cook_bar.gd" id="3_mg"]
+
+[sub_resource type="RectangleShape2D" id="RectShape_mg"]
+size = Vector2(64, 64)
+
+[node name="MeatGrinder" type="StaticBody2D"]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("2_mg")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_mg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectShape_mg")
+
+[node name="TimerBar" type="Node2D" parent="."]
+position = Vector2(0, 40)
+script = ExtResource("3_mg")
+visible = false

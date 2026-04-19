@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/storage_table.svg" id="1_st"]
+[ext_resource type="Script" path="res://scripts/storage_table.gd" id="2_st"]
+[ext_resource type="Script" path="res://scripts/cook_bar.gd" id="3_st"]
+
+[sub_resource type="RectangleShape2D" id="RectShape_st"]
+size = Vector2(128, 64)
+
+[node name="StorageTable" type="StaticBody2D"]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("2_st")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_st")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectShape_st")
+
+[node name="ItemSprite" type="Sprite2D" parent="."]
+scale = Vector2(0.8, 0.8)
+visible = false
+
+[node name="FreshnessBar" type="Node2D" parent="."]
+script = ExtResource("3_st")
+visible = false

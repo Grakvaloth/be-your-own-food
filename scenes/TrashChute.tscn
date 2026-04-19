@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/trash_chute.svg" id="1_tc"]
+[ext_resource type="Script" path="res://scripts/trash_chute.gd" id="2_tc"]
+
+[sub_resource type="RectangleShape2D" id="RectShape_tc"]
+size = Vector2(64, 64)
+
+[node name="TrashChute" type="StaticBody2D"]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("2_tc")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_tc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectShape_tc")

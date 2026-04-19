@@ -93,6 +93,14 @@ func guest_done(guest: CharacterBody2D) -> void:
 	_guests.erase(guest)
 	guest.queue_free()
 
+func return_seat(seat: Node) -> void:
+	if not _free_seats.has(seat):
+		_free_seats.append(seat)
+
+func add_fridge_meat(amount: int) -> void:
+	$Fridge.meat_count += amount
+	$Fridge._update_labels()
+
 func get_stove_upgrade_cost() -> int:
 	if _stoves_purchased >= _stove_upgrade_slots.size():
 		return -1
@@ -143,8 +151,3 @@ func _replace_with_warmer(slot: Node) -> void:
 
 func _update_hud() -> void:
 	$HUD/ScoreLabel.text = "Münzen: " + str(score)
-	var sc := get_stove_upgrade_cost()
-	var wc := get_warmer_upgrade_cost()
-	var sl := "[E] Herd: %s" % (str(sc) if sc >= 0 else "MAX")
-	var wl := "  [Q] Wärmer: %s" % (str(wc) if wc >= 0 else "MAX")
-	$HUD/UpgradeLabel.text = sl + wl

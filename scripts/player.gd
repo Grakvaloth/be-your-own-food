@@ -5,10 +5,23 @@ const SPEED_BOOST := 1.5
 const INVENTORY_SIZE := 4
 const TEMP_THRESHOLD := 1.0 / 3.0
 
+const ATTACK_OFFSETS := {
+	"south": Vector2(0, 70),
+	"north": Vector2(0, -70),
+	"east": Vector2(70, 0),
+	"west": Vector2(-70, 0),
+}
+
 var inventory: Array[String] = ["", "", "", ""]
 var _temps: Array[float] = [1.0, 1.0, 1.0, 1.0]
 var _active_slot := 0
 var last_taken_temp: float = 1.0
+
+var _facing := "south"
+var _attacking := false
+
+@onready var _anim: AnimatedSprite2D = $AnimatedSprite2D
+@onready var _attack_shape: CollisionShape2D = $AttackArea/CollisionShape2D
 
 @onready var _slots: Array[TextureRect] = [
 	$InventoryLayer/Slot0/Icon,
@@ -32,18 +45,39 @@ func _ready() -> void:
 		"food_burnt": load("res://assets/food_cooked.svg"),
 		"bun": load("res://assets/bun.svg"),
 		"burger": load("res://assets/burger.svg"),
+		"dead_guest": load("res://assets/guest.svg"),
 	}
 	_update_ui()
 
 func _physics_process(delta: float) -> void:
+	var dir := Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	var spd := SPEED * (SPEED_BOOST if Input.is_physical_key_pressed(KEY_SHIFT) else 1.0)
-	velocity = Input.get_vector("move_left", "move_right", "move_up", "move_down") * spd
+
+	if not _attacking:
+		velocity = dir * spd
+	else:
+		velocity = Vector2.ZERO
 	move_and_slide()
+
+	if dir.length() > 0.1:
+		if abs(dir.x) >= abs(dir.y):
+			_facing = "east" if dir.x > 0 else "west"
+		else:
+			_facing = "south" if dir.y > 0 else "north"
+
+	_update_animation(dir)
+
 	for i in INVENTORY_SIZE:
-		if inventory[i] == "food_cooked":
-			_temps[i] = maxf(0.0, _temps[i] - delta / 6.0)
-		elif inventory[i] == "burger":
-			_temps[i] = maxf(0.0, _temps[i] - delta / 9.0)
+		match inventory[i]:
+			"food_cooked":
+				_temps[i] = maxf(0.0, _temps[i] - delta / 6.0)
+			"burger":
+				_temps[i] = maxf(0.0, _temps[i] - delta / 9.0)
+			"dead_guest":
+				_temps[i] = maxf(0.0, _temps[i] - delta / 300.0)
+
+	if Input.is_action_just_pressed("attack") and not _attacking:
+		_start_attack()
 	if Input.is_action_just_pressed("open_fridge"):
 		_interact_open()
 	if Input.is_action_just_pressed("interact"):
@@ -64,6 +98,32 @@ func _physics_process(delta: float) -> void:
 		_set_active_slot((_active_slot + 1) % INVENTORY_SIZE)
 	_update_ui()
 	_update_hint()
+
+func _update_animation(dir: Vector2) -> void:
+	if _attacking:
+		return
+	if dir.length() > 0.1:
+		_anim.play("walk_" + _facing)
+	else:
+		_anim.play("idle_" + _facing)
+
+func _start_attack() -> void:
+	_attacking = true
+	$AttackArea.position = ATTACK_OFFSETS[_facing]
+	_anim.play("attack_" + _facing)
+
+func _on_anim_finished() -> void:
+	if _attacking:
+		_attacking = false
+		_attack_shape.disabled = true
+
+func _on_frame_changed() -> void:
+	if _attacking:
+		_attack_shape.disabled = not (_anim.frame in [2, 3])
+
+func _on_attack_body_entered(body: Node2D) -> void:
+	if body.has_method("take_damage"):
+		body.take_damage(1)
 
 func _set_active_slot(idx: int) -> void:
 	_active_slot = idx
@@ -147,6 +207,8 @@ func _update_ui() -> void:
 			_slots[i].modulate = _temp_color(_temps[i])
 		elif item == "food_burnt":
 			_slots[i].modulate = Color(0.2, 0.2, 0.2)
+		elif item == "dead_guest":
+			_slots[i].modulate = _freshness_color(_temps[i])
 		else:
 			_slots[i].modulate = Color.WHITE
 		_panels[i].modulate = Color(1.0, 1.0, 0.3) if i == _active_slot else Color.WHITE
@@ -155,6 +217,11 @@ func _temp_color(t: float) -> Color:
 	if t < 0.5:
 		return Color(0.2, 0.4, 1.0).lerp(Color(1.0, 1.0, 0.0), t * 2.0)
 	return Color(1.0, 1.0, 0.0).lerp(Color(1.0, 0.5, 0.0), (t - 0.5) * 2.0)
+
+func _freshness_color(t: float) -> Color:
+	if t > 0.0:
+		return Color(0.5, 0.5, 0.5)  # grau = tot aber frisch
+	return Color(0.5, 0.25, 0.0)     # braun = nicht mehr frisch
 
 func _interact() -> void:
 	for body in $InteractArea.get_overlapping_bodies():
@@ -166,16 +233,16 @@ func _interact() -> void:
 			area.on_player_interact(self)
 			return
 
-func _interact_open() -> void:
-	for body in $InteractArea.get_overlapping_bodies():
-		if body != self and body.has_method("can_open") and body.can_open(self) and body.has_method("on_player_open"):
-			body.on_player_open(self)
-			return
-
 func _interact_alt() -> void:
 	for body in $InteractArea.get_overlapping_bodies():
 		if body != self and body.has_method("can_interact_alt") and body.can_interact_alt(self) and body.has_method("on_player_interact_alt"):
 			body.on_player_interact_alt(self)
+			return
+
+func _interact_open() -> void:
+	for body in $InteractArea.get_overlapping_bodies():
+		if body != self and body.has_method("can_open") and body.can_open(self) and body.has_method("on_player_open"):
+			body.on_player_open(self)
 			return
 
 func _update_hint() -> void:
