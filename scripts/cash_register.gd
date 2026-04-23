@@ -1,4 +1,4 @@
-extends StaticBody2D
+extends Interactable
 
 func can_interact(player: CharacterBody2D) -> bool:
 	var main := get_parent()

@@ -1,4 +1,4 @@
-extends StaticBody2D
+extends Interactable
 
 func can_interact(player: CharacterBody2D) -> bool:
 	return player.has_any_item()

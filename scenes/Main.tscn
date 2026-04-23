@@ -1,28 +1,25 @@
-[gd_scene load_steps=30 format=3]
+[gd_scene format=3 uid="uid://cr71j7f8prhbx"]
 
 [ext_resource type="PackedScene" path="res://scenes/Table.tscn" id="1_main1"]
 [ext_resource type="PackedScene" path="res://scenes/Stove.tscn" id="2_main1"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="3_main1"]
-[ext_resource type="Script" path="res://scripts/main.gd" id="4_main1"]
-[ext_resource type="Texture2D" path="res://assets/fridge.svg" id="5_main1"]
-[ext_resource type="Script" path="res://scripts/fridge.gd" id="6_main1"]
+[ext_resource type="Script" uid="uid://lefe0gj1pb4s" path="res://scripts/main.gd" id="4_main1"]
+[ext_resource type="Texture2D" uid="uid://cumm0iut5aaq6" path="res://assets/fridge.svg" id="5_main1"]
+[ext_resource type="Script" uid="uid://b4vj0f65c7thm" path="res://scripts/fridge.gd" id="6_main1"]
 [ext_resource type="PackedScene" path="res://scenes/Counter.tscn" id="7_main1"]
 [ext_resource type="PackedScene" path="res://scenes/Trash.tscn" id="8_main1"]
 [ext_resource type="PackedScene" path="res://scenes/CashRegister.tscn" id="9_main1"]
 [ext_resource type="PackedScene" path="res://scenes/WarmingPlate.tscn" id="10_main1"]
 [ext_resource type="PackedScene" path="res://scenes/UpgradeComputer.tscn" id="11_main1"]
-[ext_resource type="PackedScene" path="res://scenes/PauseMenu.tscn" id="17_main1"]
-[ext_resource type="PackedScene" path="res://scenes/ComputerMenu.tscn" id="18_main1"]
 [ext_resource type="PackedScene" path="res://scenes/StorageTable.tscn" id="12_main1"]
 [ext_resource type="PackedScene" path="res://scenes/MeatGrinder.tscn" id="13_main1"]
 [ext_resource type="PackedScene" path="res://scenes/TrashChute.tscn" id="14_main1"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_fridge"]
-size = Vector2(64, 128)
+[ext_resource type="PackedScene" path="res://scenes/PauseMenu.tscn" id="17_main1"]
+[ext_resource type="PackedScene" path="res://scenes/ComputerMenu.tscn" id="18_main1"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_main1"]
 vertices = PackedVector2Array(-200, 700, 1890, 700, 1890, 1790, -200, 1790)
-polygons = [PackedInt32Array(0, 1, 2, 3)]
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 
 [sub_resource type="RectangleShape2D" id="RectShape_WallTopLeft"]
 size = Vector2(1100, 24)
@@ -51,220 +48,225 @@ size = Vector2(950, 24)
 [sub_resource type="RectangleShape2D" id="RectShape_BackRoomEast"]
 size = Vector2(24, 600)
 
-[node name="Main" type="Node2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fridge"]
+size = Vector2(64, 128)
+
+[node name="Main" type="Node2D" unique_id=1803089814]
 script = ExtResource("4_main1")
 
-[node name="Floor" type="Polygon2D" parent="."]
-polygon = PackedVector2Array(50, 50, 1900, 50, 1900, 1800, 50, 1800)
+[node name="Floor" type="Polygon2D" parent="." unique_id=284301992]
 color = Color(0.82, 0.76, 0.65, 1)
+polygon = PackedVector2Array(50, 50, 1900, 50, 1900, 1800, 50, 1800)
 
-[node name="BackRoomFloor" type="Polygon2D" parent="."]
-polygon = PackedVector2Array(950, -550, 1900, -550, 1900, 50, 950, 50)
+[node name="BackRoomFloor" type="Polygon2D" parent="." unique_id=1389061368]
 color = Color(0.7, 0.65, 0.55, 1)
+polygon = PackedVector2Array(950, -550, 1900, -550, 1900, 50, 950, 50)
 
-[node name="Door" type="Polygon2D" parent="."]
+[node name="Door" type="Polygon2D" parent="." unique_id=1377838416]
+color = Color(0.55, 0.42, 0.18, 1)
 polygon = PackedVector2Array(10, 825, 60, 825, 60, 935, 10, 935)
-color = Color(0.55, 0.42, 0.18, 1)
 
-[node name="BackRoomDoor" type="Polygon2D" parent="."]
+[node name="BackRoomDoor" type="Polygon2D" parent="." unique_id=581305939]
+color = Color(0.55, 0.42, 0.18, 1)
 polygon = PackedVector2Array(1150, 40, 1350, 40, 1350, 60, 1150, 60)
-color = Color(0.55, 0.42, 0.18, 1)
 
-[node name="WallLineA" type="Line2D" parent="."]
+[node name="WallLineA" type="Line2D" parent="." unique_id=1052350884]
 points = PackedVector2Array(50, 830, 50, 50, 1150, 50)
 width = 24.0
 default_color = Color(0.3, 0.22, 0.12, 1)
 
-[node name="WallLineB" type="Line2D" parent="."]
+[node name="WallLineB" type="Line2D" parent="." unique_id=1412617967]
 points = PackedVector2Array(1350, 50, 1900, 50, 1900, 1800, 50, 1800, 50, 930)
 width = 24.0
 default_color = Color(0.3, 0.22, 0.12, 1)
 
-[node name="WallLineBackRoom" type="Line2D" parent="."]
+[node name="WallLineBackRoom" type="Line2D" parent="." unique_id=1376089648]
 points = PackedVector2Array(950, 50, 950, -550, 1900, -550, 1900, 50)
 width = 24.0
 default_color = Color(0.3, 0.22, 0.12, 1)
 
-[node name="NavRegion" type="NavigationRegion2D" parent="."]
+[node name="NavRegion" type="NavigationRegion2D" parent="." unique_id=1676498835]
 navigation_polygon = SubResource("NavigationPolygon_main1")
 
-[node name="WallTopLeft" type="StaticBody2D" parent="."]
+[node name="WallTopLeft" type="StaticBody2D" parent="." unique_id=2080162451]
 position = Vector2(600, 50)
 collision_layer = 4
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WallTopLeft"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallTopLeft" unique_id=1219951489]
 shape = SubResource("RectShape_WallTopLeft")
 
-[node name="WallTopRight" type="StaticBody2D" parent="."]
+[node name="WallTopRight" type="StaticBody2D" parent="." unique_id=1961614434]
 position = Vector2(1625, 50)
 collision_layer = 4
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WallTopRight"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallTopRight" unique_id=728938623]
 shape = SubResource("RectShape_WallTopRight")
 
-[node name="WallBottom" type="StaticBody2D" parent="."]
+[node name="WallBottom" type="StaticBody2D" parent="." unique_id=1814862326]
 position = Vector2(975, 1800)
 collision_layer = 4
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WallBottom"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallBottom" unique_id=889929088]
 shape = SubResource("RectShape_WallBottom")
 
-[node name="WallLeftTop" type="StaticBody2D" parent="."]
+[node name="WallLeftTop" type="StaticBody2D" parent="." unique_id=528351919]
 position = Vector2(50, 440)
 collision_layer = 4
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WallLeftTop"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallLeftTop" unique_id=1023424860]
 shape = SubResource("RectShape_WallLeftTop")
 
-[node name="WallLeftBottom" type="StaticBody2D" parent="."]
+[node name="WallLeftBottom" type="StaticBody2D" parent="." unique_id=1243002050]
 position = Vector2(50, 1365)
 collision_layer = 4
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WallLeftBottom"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallLeftBottom" unique_id=1493891520]
 shape = SubResource("RectShape_WallLeftBottom")
 
-[node name="WallRight" type="StaticBody2D" parent="."]
+[node name="WallRight" type="StaticBody2D" parent="." unique_id=1392821176]
 position = Vector2(1900, 925)
 collision_layer = 4
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WallRight"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallRight" unique_id=792966438]
 shape = SubResource("RectShape_WallRight")
 
-[node name="BackRoomWestWall" type="StaticBody2D" parent="."]
+[node name="BackRoomWestWall" type="StaticBody2D" parent="." unique_id=1346102101]
 position = Vector2(950, -250)
 collision_layer = 4
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BackRoomWestWall"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BackRoomWestWall" unique_id=820691128]
 shape = SubResource("RectShape_BackRoomWest")
 
-[node name="BackRoomNorthWall" type="StaticBody2D" parent="."]
+[node name="BackRoomNorthWall" type="StaticBody2D" parent="." unique_id=1054513145]
 position = Vector2(1425, -550)
 collision_layer = 4
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BackRoomNorthWall"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BackRoomNorthWall" unique_id=1096541071]
 shape = SubResource("RectShape_BackRoomNorth")
 
-[node name="BackRoomEastWall" type="StaticBody2D" parent="."]
+[node name="BackRoomEastWall" type="StaticBody2D" parent="." unique_id=1016640225]
 position = Vector2(1900, -250)
 collision_layer = 4
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BackRoomEastWall"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BackRoomEastWall" unique_id=602344059]
 shape = SubResource("RectShape_BackRoomEast")
 
-[node name="Fridge" type="StaticBody2D" parent="."]
+[node name="Fridge" type="StaticBody2D" parent="." unique_id=595002015]
 position = Vector2(160, 288)
 scale = Vector2(1.8, 1.8)
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("6_main1")
 
-[node name="Sprite2D" type="Sprite2D" parent="Fridge"]
+[node name="Sprite2D" type="Sprite2D" parent="Fridge" unique_id=1241273631]
+position = Vector2(0, -38.88889)
 texture = ExtResource("5_main1")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Fridge"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Fridge" unique_id=774834839]
+position = Vector2(-0.5555556, -38.88889)
 shape = SubResource("RectangleShape2D_fridge")
 
-[node name="ComputerMenu" parent="Fridge" instance=ExtResource("18_main1")]
+[node name="ComputerMenu" parent="Fridge" unique_id=1038570438 instance=ExtResource("18_main1")]
 
-[node name="Stove1" parent="." instance=ExtResource("2_main1")]
+[node name="Stove1" parent="." unique_id=1418281413 instance=ExtResource("2_main1")]
 position = Vector2(276, 160)
 scale = Vector2(1.8, 1.8)
 
-[node name="StoveSlot1" parent="." instance=ExtResource("7_main1")]
+[node name="StoveSlot1" parent="." unique_id=522495958 instance=ExtResource("7_main1")]
 position = Vector2(392, 160)
 scale = Vector2(1.8, 1.8)
 
-[node name="StoveSlot2" parent="." instance=ExtResource("7_main1")]
+[node name="StoveSlot2" parent="." unique_id=1792871052 instance=ExtResource("7_main1")]
 position = Vector2(508, 160)
 scale = Vector2(1.8, 1.8)
 
-[node name="StoveSlot3" parent="." instance=ExtResource("7_main1")]
+[node name="StoveSlot3" parent="." unique_id=473863744 instance=ExtResource("7_main1")]
 position = Vector2(624, 160)
 scale = Vector2(1.8, 1.8)
 
-[node name="StoveSlot4" parent="." instance=ExtResource("7_main1")]
+[node name="StoveSlot4" parent="." unique_id=1123452017 instance=ExtResource("7_main1")]
 position = Vector2(740, 160)
 scale = Vector2(1.8, 1.8)
 
-[node name="Trash" parent="." instance=ExtResource("8_main1")]
-position = Vector2(1400, 160)
+[node name="Trash" parent="." unique_id=2016924056 instance=ExtResource("8_main1")]
+position = Vector2(926, 163)
 scale = Vector2(1.8, 1.8)
 
-[node name="UpgradeComputer" parent="." instance=ExtResource("11_main1")]
-position = Vector2(1550, 160)
+[node name="UpgradeComputer" parent="." unique_id=1365592940 instance=ExtResource("11_main1")]
+position = Vector2(1070, 162.00002)
 scale = Vector2(1.8, 1.8)
 
-[node name="WarmingPlate1" parent="." instance=ExtResource("10_main1")]
+[node name="WarmingPlate1" parent="." unique_id=112981321 instance=ExtResource("10_main1")]
 position = Vector2(320, 640)
 scale = Vector2(1.8, 1.8)
 
-[node name="WarmerSlot1" parent="." instance=ExtResource("7_main1")]
+[node name="WarmerSlot1" parent="." unique_id=1133897058 instance=ExtResource("7_main1")]
 position = Vector2(436, 640)
 scale = Vector2(1.8, 1.8)
 
-[node name="WarmerSlot2" parent="." instance=ExtResource("7_main1")]
+[node name="WarmerSlot2" parent="." unique_id=714807090 instance=ExtResource("7_main1")]
 position = Vector2(552, 640)
 scale = Vector2(1.8, 1.8)
 
-[node name="WarmerSlot3" parent="." instance=ExtResource("7_main1")]
+[node name="WarmerSlot3" parent="." unique_id=1596319147 instance=ExtResource("7_main1")]
 position = Vector2(668, 640)
 scale = Vector2(1.8, 1.8)
 
-[node name="WarmerSlot4" parent="." instance=ExtResource("7_main1")]
+[node name="WarmerSlot4" parent="." unique_id=1302867602 instance=ExtResource("7_main1")]
 position = Vector2(784, 640)
 scale = Vector2(1.8, 1.8)
 
-[node name="CashRegister" parent="." instance=ExtResource("9_main1")]
+[node name="CashRegister" parent="." unique_id=948552762 instance=ExtResource("9_main1")]
 position = Vector2(900, 640)
 scale = Vector2(1.8, 1.8)
 
-[node name="StorageTable1" parent="." instance=ExtResource("12_main1")]
-position = Vector2(1250, -200)
+[node name="StorageTable1" parent="." unique_id=2036006803 instance=ExtResource("12_main1")]
+position = Vector2(1080, -443)
 scale = Vector2(1.8, 1.8)
 
-[node name="StorageTable2" parent="." instance=ExtResource("12_main1")]
-position = Vector2(1550, -200)
+[node name="StorageTable2" parent="." unique_id=734393591 instance=ExtResource("12_main1")]
+position = Vector2(1772.0001, -441.00003)
 scale = Vector2(1.8, 1.8)
 
-[node name="MeatGrinder1" parent="." instance=ExtResource("13_main1")]
-position = Vector2(1100, -380)
+[node name="MeatGrinder1" parent="." unique_id=1878767838 instance=ExtResource("13_main1")]
+position = Vector2(1021, -21)
 scale = Vector2(1.8, 1.8)
 
-[node name="TrashChute1" parent="." instance=ExtResource("14_main1")]
-position = Vector2(1770, -380)
+[node name="TrashChute1" parent="." unique_id=1572870108 instance=ExtResource("14_main1")]
+position = Vector2(1827, -24)
 scale = Vector2(1.8, 1.8)
 
-[node name="Table1" parent="." instance=ExtResource("1_main1")]
+[node name="Table1" parent="." unique_id=1171335271 instance=ExtResource("1_main1")]
 position = Vector2(400, 1500)
 scale = Vector2(1.8, 1.8)
 
-[node name="Table2" parent="." instance=ExtResource("1_main1")]
-position = Vector2(750, 1500)
+[node name="Table2" parent="." unique_id=1393305913 instance=ExtResource("1_main1")]
+position = Vector2(779, 1500)
 scale = Vector2(1.8, 1.8)
 
-[node name="Table3" parent="." instance=ExtResource("1_main1")]
-position = Vector2(1100, 1500)
+[node name="Table3" parent="." unique_id=1997262942 instance=ExtResource("1_main1")]
+position = Vector2(1159, 1500)
 scale = Vector2(1.8, 1.8)
 
-[node name="Player" parent="." instance=ExtResource("3_main1")]
+[node name="Player" parent="." unique_id=420074414 instance=ExtResource("3_main1")]
 position = Vector2(900, 1000)
 
-[node name="HUD" type="CanvasLayer" parent="."]
+[node name="HUD" type="CanvasLayer" parent="." unique_id=591132805]
 
-[node name="ScoreLabel" type="Label" parent="HUD"]
+[node name="ScoreLabel" type="Label" parent="HUD" unique_id=1307567245]
 offset_left = 20.0
 offset_top = 20.0
 offset_right = 300.0
 offset_bottom = 60.0
 text = "Münzen: 0"
 
-[node name="PauseMenu" parent="." instance=ExtResource("17_main1")]
+[node name="PauseMenu" parent="." unique_id=1330884874 instance=ExtResource("17_main1")]

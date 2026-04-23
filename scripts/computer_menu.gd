@@ -72,13 +72,11 @@ func _refresh() -> void:
 
 	var tab_items: Array = _items[_tab]
 	for i in tab_items.size():
-		var lbl := Label.new()
 		var entry: Dictionary = tab_items[i]
-		lbl.text = ("► " if i == _selected else "  ") + entry["label"]
+		var row := _build_row(entry, i == _selected)
 		if not entry.get("available", true):
-			lbl.modulate = Color(0.5, 0.5, 0.5)
-		lbl.add_theme_font_size_override("font_size", 20)
-		_list.add_child(lbl)
+			row.modulate = Color(0.5, 0.5, 0.5)
+		_list.add_child(row)
 
 	if tab_items.size() > 0:
 		var entry: Dictionary = tab_items[_selected]
@@ -90,3 +88,47 @@ func _refresh() -> void:
 			_cost_label.text = "" if avail else "[nicht verfügbar]"
 	else:
 		_cost_label.text = ""
+
+func _build_row(entry: Dictionary, selected: bool) -> HBoxContainer:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 8)
+
+	var marker := Label.new()
+	marker.text = "►" if selected else "  "
+	marker.add_theme_font_size_override("font_size", 20)
+	marker.custom_minimum_size = Vector2(24, 0)
+	row.add_child(marker)
+
+	if entry.has("icon"):
+		var icon_box := Control.new()
+		icon_box.custom_minimum_size = Vector2(56, 56)
+
+		var icon := TextureRect.new()
+		icon.texture = entry["icon"]
+		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		icon.set_anchors_preset(Control.PRESET_FULL_RECT)
+		icon_box.add_child(icon)
+
+		if entry.has("overlay"):
+			var overlay := TextureRect.new()
+			overlay.texture = entry["overlay"]
+			overlay.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+			overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+			overlay.scale = Vector2(0.6, 0.6)
+			overlay.pivot_offset = Vector2(28, 28)
+			icon_box.add_child(overlay)
+
+		row.add_child(icon_box)
+
+		var count_label := Label.new()
+		count_label.text = "× " + str(entry.get("count", 0))
+		count_label.add_theme_font_size_override("font_size", 22)
+		count_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		row.add_child(count_label)
+	else:
+		var lbl := Label.new()
+		lbl.text = entry["label"]
+		lbl.add_theme_font_size_override("font_size", 20)
+		row.add_child(lbl)
+
+	return row

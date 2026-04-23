@@ -74,18 +74,19 @@ func _advance_queue() -> void:
 		_queue[i].walk_to_queue(QUEUE_POSITIONS[i])
 
 func guest_served(guest: CharacterBody2D) -> void:
-	score += POINTS_PER_GUEST
 	if guest.assigned_seat != null:
 		_free_seats.append(guest.assigned_seat)
 	_guests.erase(guest)
 	guest.queue_free()
-	_update_hud()
+	_set_score(score + POINTS_PER_GUEST)
+	EventBus.guest_served.emit(guest, POINTS_PER_GUEST)
 
 func guest_left_early(guest: CharacterBody2D) -> void:
 	if _queue.has(guest):
 		_queue.erase(guest)
 		_advance_queue()
 	_guests.erase(guest)
+	EventBus.guest_left_early.emit(guest)
 
 func guest_done(guest: CharacterBody2D) -> void:
 	if guest.assigned_seat != null:
@@ -98,14 +99,15 @@ func return_seat(seat: Node) -> void:
 		_free_seats.append(seat)
 
 func add_fridge_meat(amount: int) -> void:
-	var fridge := $Fridge
-	fridge.meat_count += amount
-	fridge._update_labels()
+	$Fridge.add_meat(amount)
 
 func add_fridge_buns(amount: int) -> void:
-	var fridge := $Fridge
-	fridge.bun_count += amount
-	fridge._update_labels()
+	$Fridge.add_buns(amount)
+
+func _set_score(new_score: int) -> void:
+	score = new_score
+	_update_hud()
+	EventBus.score_changed.emit(score)
 
 func get_stove_upgrade_cost() -> int:
 	if _stoves_purchased >= _stove_upgrade_slots.size():
@@ -121,22 +123,29 @@ func buy_stove_upgrade() -> bool:
 	var cost := get_stove_upgrade_cost()
 	if cost < 0 or score < cost:
 		return false
-	score -= cost
 	var slot: Node = _stove_upgrade_slots[_stoves_purchased]
 	_replace_with_stove(slot)
 	_stoves_purchased += 1
-	_update_hud()
+	_set_score(score - cost)
+	EventBus.upgrade_purchased.emit("stove", _stoves_purchased)
 	return true
 
 func buy_warmer_upgrade() -> bool:
 	var cost := get_warmer_upgrade_cost()
 	if cost < 0 or score < cost:
 		return false
-	score -= cost
 	var slot: Node = _warmer_upgrade_slots[_warmers_purchased]
 	_replace_with_warmer(slot)
 	_warmers_purchased += 1
-	_update_hud()
+	_set_score(score - cost)
+	EventBus.upgrade_purchased.emit("warmer", _warmers_purchased)
+	return true
+
+func buy_buns(cost: int, count: int) -> bool:
+	if score < cost:
+		return false
+	_set_score(score - cost)
+	add_fridge_buns(count)
 	return true
 
 func _replace_with_stove(slot: Node) -> void:

@@ -1,4 +1,4 @@
-extends StaticBody2D
+extends Interactable
 
 var _menu_open := false
 var _player: CharacterBody2D = null
@@ -67,13 +67,8 @@ func _on_menu_item_selected(tab: int, index: int) -> void:
 			main.buy_warmer_upgrade()
 		_open_menu()
 	elif tab == 1:
-		var coins: int = main.score
-		if index == 0 and coins >= 10:
-			main.score -= 10
-			main.add_fridge_buns(1)
-			main._update_hud()
-		elif index == 1 and coins >= 80:
-			main.score -= 80
-			main.add_fridge_buns(10)
-			main._update_hud()
+		if index == 0:
+			main.buy_buns(10, 1)
+		elif index == 1:
+			main.buy_buns(80, 10)
 		_open_menu()

@@ -1,4 +1,4 @@
-extends StaticBody2D
+extends Interactable
 
 var _timer: float = 0.0
 var _running := false
@@ -20,12 +20,12 @@ func _process(delta: float) -> void:
 			get_parent().add_fridge_meat(5)
 
 func can_interact(player: CharacterBody2D) -> bool:
-	return not _running and player.has_item("dead_guest") \
-		and player.get_item_temp("dead_guest") > 0.0
+	return not _running and player.has_item(Items.DEAD_GUEST) \
+		and player.get_item_temp(Items.DEAD_GUEST) > 0.0
 
 func on_player_interact(player: CharacterBody2D) -> void:
-	if not _running and player.has_item("dead_guest") and player.get_item_temp("dead_guest") > 0.0:
-		player.take_item("dead_guest")
+	if not _running and player.has_item(Items.DEAD_GUEST) and player.get_item_temp(Items.DEAD_GUEST) > 0.0:
+		player.take_item(Items.DEAD_GUEST)
 		_running = true
 		_timer = GRIND_TIME
 		_bar.visible = true
